@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/6810779s/react-nodebird#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "async": "^3.2.3",
+    "express": "^4.17.2",
+    "mssql": "^7.3.0",
+    "tedious": "^14.0.0"
   }
 }

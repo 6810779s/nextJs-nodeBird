@@ -3,7 +3,7 @@
 
 ### NextJS ###
 # Next build dir
-.next/
+.next
 
 ### react ###
 .DS_*
