@@ -1,4 +1,4 @@
-import shortId from "shortid";
+// import shortId from "shortid";
 import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
@@ -12,9 +12,15 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
+  LIKE_BUTTON_REQUEST,
+  LIKE_BUTTON_SUCCESS,
+  LIKE_BUTTON_FAILURE,
+  UNLIKE_BUTTON_REQUEST,
+  UNLIKE_BUTTON_SUCCESS,
+  UNLIKE_BUTTON_FAILURE,
 } from "../constants/post";
 import produce from "immer";
-import faker from "faker";
+// import faker from "faker";
 
 export const initialState = {
   mainPosts: [],
@@ -32,29 +38,35 @@ export const initialState = {
   addCommentsLoading: false,
   addCommentsDone: false,
   addCommentsFailure: null,
+  likeButtonLoading: false,
+  likeButtonDone: false,
+  likeButtonFailure: null,
+  unlikeButtonLoading: false,
+  unlikeButtonDone: false,
+  unlikeButtonFailure: null,
 };
-export const generateDummyPost = (number) =>
-  Array(number)
-    .fill()
-    .map(() => ({
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.paragraph(),
-      Images: [{ src: "https://picsum.photos/200/300" }],
-      Comments: [
-        {
-          id: shortId.generate(),
-          User: {
-            id: shortId.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }));
+// export const generateDummyPost = (number) =>
+//   Array(number)
+//     .fill()
+//     .map(() => ({
+//       id: shortId.generate(),
+//       User: {
+//         id: shortId.generate(),
+//         nickname: faker.name.findName(),
+//       },
+//       content: faker.lorem.paragraph(),
+//       Images: [{ src: "https://picsum.photos/200/300" }],
+//       Comments: [
+//         {
+//           id: shortId.generate(),
+//           User: {
+//             id: shortId.generate(),
+//             nickname: faker.name.findName(),
+//           },
+//           content: faker.lorem.sentence(),
+//         },
+//       ],
+//     }));
 
 export const addPost = (data) => {
   return {
@@ -70,42 +82,41 @@ export const addComments = (data) => {
   };
 };
 
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: "eunhee",
-  },
-  Comments: [
-    {
-      User: {
-        nickname: "neee",
-      },
-      content: "하잉",
-    },
-    {
-      User: {
-        nickname: "heeeu",
-      },
-      content: "잘보고 갑니다 ><",
-    },
-  ],
-  Images: [],
-});
-
-const dummyComment = (data) => ({
-  id: shortId.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: "eunhee",
-  },
-});
-
 const rootReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LIKE_BUTTON_REQUEST:
+        draft.likeButtonLoading = true;
+        draft.likeButtonDone = false;
+        draft.likeButtonFailure = null;
+        break;
+      case LIKE_BUTTON_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Likers.push({ id: action.data.UserId });
+        draft.likeButtonLoading = false;
+        draft.likeButtonDone = true;
+        break;
+      }
+      case LIKE_BUTTON_FAILURE:
+        draft.likeButtonLoading = false;
+        draft.likeButtonFailure = action.error;
+        break;
+      case UNLIKE_BUTTON_REQUEST:
+        draft.unlikeButtonLoading = true;
+        draft.unlikeButtonDone = false;
+        draft.unlikeButtonFailure = null;
+        break;
+      case UNLIKE_BUTTON_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Likers = post.Likers.filter((v) => v.id !== action.data.UserId);
+        draft.unlikeButtonLoading = false;
+        draft.unlikeButtonDone = true;
+        break;
+      }
+      case UNLIKE_BUTTON_FAILURE:
+        draft.unlikeButtonLoading = false;
+        draft.unlikeButtonFailure = action.error;
+        break;
       case LOAD_POST_REQUEST:
         draft.loadPostLoading = true;
         draft.loadPostDone = false;
@@ -115,7 +126,7 @@ const rootReducer = (state = initialState, action) => {
         draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
-        draft.hasMorePosts = draft.mainPosts.length < 50;
+        draft.hasMorePosts = draft.mainPosts.length > 10;
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
@@ -127,7 +138,7 @@ const rootReducer = (state = initialState, action) => {
         draft.addPostFailure = null;
         break;
       case ADD_POST_SUCCESS:
-        draft.mainPosts.unshift(dummyPost(action.data));
+        draft.mainPosts.unshift(action.data);
         draft.addPostLoading = false;
         draft.addPostDone = true;
         break;
@@ -141,16 +152,8 @@ const rootReducer = (state = initialState, action) => {
         draft.addCommentsFailure = null;
         break;
       case ADD_COMMENTS_SUCCESS:
-        // const postIndex = state.mainPosts.findIndex(
-        //   (v) => v.id === action.data.postId
-        // );
-        // const post = state.mainPosts[postIndex];
-        // const Comments = [dummyComment(action.data.content), ...post.Comments];
-        // const mainPosts = [...state.mainPosts];
-        // mainPosts[postIndex] = { ...post, Comments };
-
-        const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data.content));
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Comments.unshift(action.data);
         draft.addCommentsLoading = false;
         draft.addCommentsDone = true;
         break;
@@ -165,7 +168,9 @@ const rootReducer = (state = initialState, action) => {
         draft.removePostFailure = null;
         break;
       case REMOVE_POST_SUCCESS:
-        draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data);
+        draft.mainPosts = draft.mainPosts.filter(
+          (v) => v.id !== action.data.PostId
+        );
         draft.removePostLoading = false;
         draft.removePostDone = true;
         break;

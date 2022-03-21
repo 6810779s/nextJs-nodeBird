@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import PostCard from "../components/PostCard";
 import PostForm from "../components/PostForm";
 import { LOAD_POST_REQUEST } from "../constants/post";
+import { LOAD_MY_INFO_REQUEST } from "../constants/user";
 import { useInView } from "react-intersection-observer";
 
 const Home = () => {
@@ -16,12 +17,19 @@ const Home = () => {
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    if (inView && !loadPostLoading && hasMorePosts) {
-      dispatch({
-        type: LOAD_POST_REQUEST,
-      });
-    }
-  }, [inView]);
+    dispatch({ type: LOAD_MY_INFO_REQUEST });
+    dispatch({
+      type: LOAD_POST_REQUEST,
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   if (inView && !loadPostLoading && hasMorePosts) {
+  //     dispatch({
+  //       type: LOAD_POST_REQUEST,
+  //     });
+  //   }
+  // }, [inView]);
 
   return (
     <div>

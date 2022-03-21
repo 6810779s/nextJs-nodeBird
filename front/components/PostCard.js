@@ -27,7 +27,11 @@ import PostImages from "./PostImages";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
-import { REMOVE_POST_REQUEST } from "../constants/post";
+import {
+  REMOVE_POST_REQUEST,
+  LIKE_BUTTON_REQUEST,
+  UNLIKE_BUTTON_REQUEST,
+} from "../constants/post";
 import Loading from "./Loading";
 import FollowButton from "./FollowButton";
 
@@ -38,9 +42,9 @@ const PostCard = ({ post }) => {
   const open = Boolean(anchorEl);
   const id = me?.id; // 이문법과 같음 me && me.id
   const UIid = open ? "simple-popover" : undefined;
-  const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(false);
   const dispatch = useDispatch();
+  const [like, setLiked] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +61,18 @@ const PostCard = ({ post }) => {
   const onRemovePost = useCallback(() => {
     dispatch({ type: REMOVE_POST_REQUEST, data: post.id });
   }, []);
+
+  const onUnlike = useCallback(() => {
+    console.log("unlike Click!!!!!!");
+    dispatch({ type: UNLIKE_BUTTON_REQUEST, data: post.id });
+  }, []);
+  const onLike = useCallback(() => {
+    console.log("like Click!!!!!!");
+    dispatch({ type: LIKE_BUTTON_REQUEST, data: post.id });
+  }, []);
+
+  const liked = post.Likers.find((v) => v.id === id);
+
   return (
     <div style={{ marginBottom: 30 }}>
       <Card>
@@ -86,16 +102,11 @@ const PostCard = ({ post }) => {
           <IconButton aria-label="retweet">
             <RepeatIcon />
           </IconButton>
-          <IconButton
-            aria-label="add to favorite"
-            onClick={useCallback(() => {
-              setLiked((prev) => !prev); //false는 true로, true는 false로
-            }, [liked])}
-          >
+          <IconButton aria-label="add to favorite">
             {liked ? (
-              <FavoriteIcon style={{ color: "red" }} />
+              <FavoriteIcon style={{ color: "red" }} onClick={onUnlike} />
             ) : (
-              <FavoriteBorderIcon />
+              <FavoriteBorderIcon onClick={onLike} />
             )}
           </IconButton>
           <IconButton aria-label="comment" onClick={onToggleComment}>
@@ -179,6 +190,7 @@ PostCard.propTypes = {
     createdAt: PropTypes.string,
     Comments: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
+    Likers: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 

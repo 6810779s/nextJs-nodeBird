@@ -11,7 +11,7 @@ const PostForm = () => {
     setTextAreaValue(e.target.value);
   }, []);
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
-  console.log("addPostDone:", addPostDone);
+
   useEffect(() => {
     if (addPostDone) {
       setTextAreaValue("");
@@ -22,7 +22,6 @@ const PostForm = () => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     if (data.get("dailyText") !== "") {
-      console.log("dailyText:", data.get("dailyText"));
       dispatch(addPost(data.get("dailyText")));
     }
   };

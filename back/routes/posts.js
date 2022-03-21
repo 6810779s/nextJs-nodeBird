@@ -1,14 +1,41 @@
 const express = require("express");
 const router = express.Router();
+const { Post, Image, User, Comment } = require("../models");
 
-router.post("/", (req, res) => {
-  //Post , /post
-  res.json("작성완료");
-});
+router.get("/", async (req, res, next) => {
+  const posts = await Post.findAll({
+    limit: 10, //10개만 가져옴
+    //offset: 0,
+    //offset + 1 번 게시물부터 limit+offset한 숫자의 게시물을 가져와라
+    //offset 방식은 게시물 추가 혹은 삭제할 때 꼬일수도 있음
 
-router.delete("/", (req, res) => {
-  //Delete , /post
-  res.send("삭제완료");
+    order: [
+      ["createdAt", "DESC"],
+      [Comment, "createdAt", "DESC"],
+    ], //내림차순, 최신게시물부터 가져오기
+    include: [
+      {
+        model: User,
+        attributes: ["id", "nickname"],
+      },
+      { model: Image },
+      {
+        model: Comment,
+        include: [
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+          },
+        ],
+      },
+      {
+        model: User, //좋아요 누른 사람
+        as: "Likers",
+        attributes: ["id"],
+      },
+    ],
+  });
+  res.status(200).json(posts);
 });
 
 module.exports = router;

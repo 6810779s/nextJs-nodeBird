@@ -17,11 +17,17 @@ import {
   CHANGE_NICKNAME_REQUEST,
   CHANGE_NICKNAME_SUCCESS,
   CHANGE_NICKNAME_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
 } from "../constants/user";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../constants/post";
 import produce from "immer";
 
 export const initialState = {
+  loadMyInfoLoading: false, //유저 정보 가져오기 시도중
+  loadMyInfoDone: false,
+  loadMyInfoFailure: null,
   logInLoading: false, //로그인 시도중
   logInDone: false,
   logInFailure: null,
@@ -44,22 +50,6 @@ export const initialState = {
   signUpData: {},
   loginData: {},
 };
-
-const dummyUser = (data) => ({
-  ...data,
-  nickname: "eunhee",
-  id: 1,
-  Posts: [{ id: 1 }],
-  Followings: [
-    { id: 1, nickname: "aa" },
-    { id: 2, nickname: "bb" },
-  ],
-  Followers: [
-    { id: 3, nickname: "a" },
-    { id: 4, nickname: "c" },
-    { id: 5, nickname: "b" },
-  ],
-});
 
 export const loginRequestAction = (data) => {
   return {
@@ -84,6 +74,22 @@ export const signUpRequestAction = (data) => {
 const rootReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_MY_INFO_REQUEST:
+        draft.loadMyInfoLoading = true;
+        draft.loadMyInfoFailure = null;
+        draft.loadMyInfoDone = false;
+        break;
+
+      case LOAD_MY_INFO_SUCCESS:
+        draft.loadMyInfoLoading = false;
+        draft.me = action.data;
+        draft.loadMyInfoDone = true;
+        break;
+      case LOAD_MY_INFO_FAILURE:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoDone = false;
+        draft.loadMyInfoFailure = action.error;
+        break;
       case FOLLOW_REQUEST:
         draft.followingLoading = true;
         draft.followingFailure = null;
@@ -127,7 +133,7 @@ const rootReducer = (state = initialState, action) => {
       case LOG_IN_SUCCESS:
         draft.logInLoading = false;
         draft.logInDone = true;
-        draft.me = dummyUser(action.data);
+        draft.me = action.data;
         break;
       case LOG_IN_FAILURE:
         draft.logInLoading = false;
@@ -172,6 +178,7 @@ const rootReducer = (state = initialState, action) => {
         break;
 
       case CHANGE_NICKNAME_SUCCESS:
+        draft.me.nickname = action.data.nickname;
         draft.changeNicknameLoading = false;
         draft.changeNicknameDone = true;
         break;

@@ -10,9 +10,7 @@ const CommentForm = ({ post }) => {
   const commentText = useRef(null);
   const id = useSelector((state) => state.user.me?.id);
   const { addCommentsDone } = useSelector((state) => state.post);
-  console.log("addCommentsDone:", addCommentsDone);
   useEffect(() => {
-    console.log("ss");
     if (addCommentsDone) {
       setComment("");
     }
