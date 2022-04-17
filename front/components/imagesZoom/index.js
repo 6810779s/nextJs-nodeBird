@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Slider from 'react-slick';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Global } from './styles';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import Slider from "react-slick";
+import styled, { createGlobalStyle } from "styled-components";
+import { Global } from "./styles";
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const settings = {
@@ -18,7 +18,7 @@ const ImagesZoom = ({ images, onClose }) => {
   return (
     <div
       style={{
-        position: 'fixed',
+        position: "fixed",
         zIndex: 5000,
         top: 0,
         left: 0,
@@ -29,22 +29,22 @@ const ImagesZoom = ({ images, onClose }) => {
       <Global />
       <header
         style={{
-          position: 'relative',
-          background: 'white',
-          height: '44px',
-          padding: '0',
-          textAlign: 'center',
+          position: "relative",
+          background: "white",
+          height: "44px",
+          padding: "0",
+          textAlign: "center",
         }}
       >
         <h1>상세 이미지</h1>
         <button
           style={{
-            position: 'absolute',
+            position: "absolute",
             right: 0,
             top: 0,
-            padding: '15px',
-            lineHeight: '14px',
-            cursor: 'pointer',
+            padding: "15px",
+            lineHeight: "14px",
+            cursor: "pointer",
           }}
           onClick={onClose}
         >
@@ -52,16 +52,19 @@ const ImagesZoom = ({ images, onClose }) => {
         </button>
       </header>
       <div>
-        <div style={{ height: '700px', position: 'relative' }}>
+        <div style={{ height: "700px", position: "relative" }}>
           <Slider
-            style={{ height: '700px', background: '#090909' }}
+            style={{ height: "700px", background: "#090909" }}
             {...settings}
           >
-            {images.map((image) => (
-              <div style={{ padding: '32px', textAlign: 'center' }}>
+            {images.map((image, idx) => (
+              <div
+                style={{ padding: "32px", textAlign: "center" }}
+                key={image.alt + `${idx}`}
+              >
                 <img
-                  style={{ margin: '0 auto', maxHeight: '700px' }}
-                  src={image.src}
+                  style={{ margin: "0 auto", maxHeight: "700px" }}
+                  src={`http://localhost:3065/${image.src}`}
                   alt={image.alt}
                 />
               </div>
@@ -70,14 +73,14 @@ const ImagesZoom = ({ images, onClose }) => {
 
           <div
             style={{
-              position: 'absolute',
-              padding: '7px 30px',
-              textAlign: 'center',
+              position: "absolute",
+              padding: "7px 30px",
+              textAlign: "center",
               bottom: 0,
               zIndex: 30000,
-              borderRadius: '20px',
-              background: '#313131',
-              color: 'white',
+              borderRadius: "20px",
+              background: "#313131",
+              color: "white",
             }}
           >
             {currentSlide + 1}/{images.length}

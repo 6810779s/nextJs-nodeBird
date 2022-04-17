@@ -1,6 +1,11 @@
 import { Box, Button, Input, TextareaAutosize } from "@material-ui/core";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_POST_REQUEST,
+  REMOVE_IMAGE,
+  UPLOAD_IMAGES_REQUEST,
+} from "../constants/post";
 import { addPost } from "../reducers/post";
 
 const PostForm = () => {
@@ -17,18 +22,38 @@ const PostForm = () => {
       setTextAreaValue("");
     }
   }, [addPostDone]);
+  const imageInput = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+    const text = data.get("dailyText");
+    const formData = new FormData();
+    imagePaths.forEach((i) => {
+      formData.append("image", i);
+    });
+    formData.append("content", text);
     if (data.get("dailyText") !== "") {
-      dispatch(addPost(data.get("dailyText")));
+      return dispatch({ type: ADD_POST_REQUEST, data: formData });
     }
   };
 
-  //   const onClickImageUpload = useCallback(() => {
-  //     imageInput.current.click();
-  //   }, [imageInput.current]);
+  const onChangeImage = useCallback((e) => {
+    const imageFormData = new FormData();
+
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append("image", f);
+    });
+    dispatch({ type: UPLOAD_IMAGES_REQUEST, data: imageFormData });
+  });
+
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
+
+  const onRemoveImage = useCallback((index) => () => {
+    dispatch({ type: REMOVE_IMAGE, data: index });
+  });
 
   return (
     <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -43,11 +68,20 @@ const PostForm = () => {
         autoFocus
         style={{ width: "100%" }}
       />
-      <Input accept="image/*" multiple type="file" />
-      {/* <Input type="file" hidden ref={imageInput} /> */}
-      {/* <Button onClick={onClickImageUpload} variant="contained">
-        이미지 업로드
-      </Button> */}
+      {/* <Input accept="image/*" multiple type="file" /> */}
+      <div>
+        <input
+          type="file"
+          ref={imageInput}
+          name="image"
+          multiple
+          hidden
+          onChange={onChangeImage}
+        />
+        <Button onClick={onClickImageUpload} variant="contained">
+          이미지 업로드
+        </Button>
+      </div>
       <Button
         type="submit"
         fullWidth
@@ -57,11 +91,15 @@ const PostForm = () => {
         짹짹
       </Button>
       <div>
-        {imagePaths.map((v) => (
+        {imagePaths.map((v, i) => (
           <div key={v} style={{ display: "inline-block" }}>
-            <img src={v} style={{ width: "200px" }} alt={v} />
+            <img
+              src={`http://localhost:3065/${v}`}
+              style={{ width: "200px" }}
+              alt={v}
+            />
             <div>
-              <Button>제거</Button>
+              <Button onClick={onRemoveImage(i)}>제거</Button>
             </div>
           </div>
         ))}

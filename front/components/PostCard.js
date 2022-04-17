@@ -15,7 +15,7 @@ import {
   Popover,
   Typography,
 } from "@material-ui/core";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -31,6 +31,7 @@ import {
   REMOVE_POST_REQUEST,
   LIKE_BUTTON_REQUEST,
   UNLIKE_BUTTON_REQUEST,
+  RETWEET_REQUEST,
 } from "../constants/post";
 import Loading from "./Loading";
 import FollowButton from "./FollowButton";
@@ -38,13 +39,12 @@ import FollowButton from "./FollowButton";
 const PostCard = ({ post }) => {
   const { me } = useSelector((state) => state.user);
   const { removePostLoading } = useSelector((state) => state.post);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = me?.id; // 이문법과 같음 me && me.id
   const UIid = open ? "simple-popover" : undefined;
   const [comment, setComment] = useState(false);
   const dispatch = useDispatch();
-  const [like, setLiked] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,17 +59,30 @@ const PostCard = ({ post }) => {
   };
 
   const onRemovePost = useCallback(() => {
-    dispatch({ type: REMOVE_POST_REQUEST, data: post.id });
-  }, []);
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({ type: REMOVE_POST_REQUEST, data: post.id });
+  }, [id]);
 
   const onUnlike = useCallback(() => {
-    console.log("unlike Click!!!!!!");
-    dispatch({ type: UNLIKE_BUTTON_REQUEST, data: post.id });
-  }, []);
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({ type: UNLIKE_BUTTON_REQUEST, data: post.id });
+  }, [id]);
   const onLike = useCallback(() => {
-    console.log("like Click!!!!!!");
-    dispatch({ type: LIKE_BUTTON_REQUEST, data: post.id });
-  }, []);
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({ type: LIKE_BUTTON_REQUEST, data: post.id });
+  }, [id]);
+  const OnRetweet = useCallback(() => {
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({ type: RETWEET_REQUEST, data: post.id });
+  }, [id]);
 
   const liked = post.Likers.find((v) => v.id === id);
 
@@ -95,20 +108,44 @@ const PostCard = ({ post }) => {
         <CardMedia style={{ margin: "auto" }}>
           {post.Images[0] && <PostImages images={post.Images} />}
         </CardMedia>
-        <CardContent>
-          <PostCardContent postData={post.content} />
-        </CardContent>
+        {post.RetweetId && post.Retweet ? (
+          <Card>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="userImg">
+                  {post.Retweet.User.nickname[0]}
+                </Avatar>
+              }
+              title={post.Retweet.User.nickname}
+            />
+            <CardMedia style={{ margin: "auto" }}>
+              {post.Retweet.Images[0] && (
+                <PostImages images={post.Retweet.Images} />
+              )}
+            </CardMedia>
+            <CardContent>
+              <PostCardContent postData={post.Retweet.content} />
+            </CardContent>
+          </Card>
+        ) : (
+          <CardContent>
+            <PostCardContent postData={post.content} />
+          </CardContent>
+        )}
+
         <CardActions disableSpacing>
-          <IconButton aria-label="retweet">
+          <IconButton aria-label="retweet" onClick={OnRetweet}>
             <RepeatIcon />
           </IconButton>
-          <IconButton aria-label="add to favorite">
-            {liked ? (
-              <FavoriteIcon style={{ color: "red" }} onClick={onUnlike} />
-            ) : (
-              <FavoriteBorderIcon onClick={onLike} />
-            )}
-          </IconButton>
+          {liked ? (
+            <IconButton aria-label="add to favorite" onClick={onUnlike}>
+              <FavoriteIcon style={{ color: "red" }} />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="add to favorite" onClick={onLike}>
+              <FavoriteBorderIcon />
+            </IconButton>
+          )}
           <IconButton aria-label="comment" onClick={onToggleComment}>
             <TextsmsIcon />
           </IconButton>
@@ -191,6 +228,8 @@ PostCard.propTypes = {
     Comments: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
     Likers: PropTypes.arrayOf(PropTypes.object),
+    RetweetId: PropTypes.number,
+    Retweet: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
 };
 

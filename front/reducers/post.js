@@ -18,6 +18,13 @@ import {
   UNLIKE_BUTTON_REQUEST,
   UNLIKE_BUTTON_SUCCESS,
   UNLIKE_BUTTON_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
+  RETWEET_REQUEST,
+  RETWEET_SUCCESS,
+  RETWEET_FAILURE,
+  REMOVE_IMAGE,
 } from "../constants/post";
 import produce from "immer";
 // import faker from "faker";
@@ -44,6 +51,12 @@ export const initialState = {
   unlikeButtonLoading: false,
   unlikeButtonDone: false,
   unlikeButtonFailure: null,
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesFailure: null,
+  retweetLoading: false,
+  retweetDone: false,
+  retweetFailure: null,
 };
 // export const generateDummyPost = (number) =>
 //   Array(number)
@@ -85,6 +98,39 @@ export const addComments = (data) => {
 const rootReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case REMOVE_IMAGE:
+        draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
+        break;
+      case RETWEET_REQUEST:
+        draft.retweetLoading = true;
+        draft.retweetDone = false;
+        draft.retweetFailure = null;
+        break;
+      case RETWEET_SUCCESS: {
+        draft.retweetLoading = false;
+        draft.retweetDone = true;
+        draft.mainPosts.unshift(action.data);
+        break;
+      }
+      case RETWEET_FAILURE:
+        draft.retweetLoading = false;
+        draft.retweetFailure = action.error;
+        break;
+      case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesFailure = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS: {
+        draft.imagePaths = action.data;
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        break;
+      }
+      case UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesFailure = action.error;
+        break;
       case LIKE_BUTTON_REQUEST:
         draft.likeButtonLoading = true;
         draft.likeButtonDone = false;
@@ -101,6 +147,7 @@ const rootReducer = (state = initialState, action) => {
         draft.likeButtonLoading = false;
         draft.likeButtonFailure = action.error;
         break;
+
       case UNLIKE_BUTTON_REQUEST:
         draft.unlikeButtonLoading = true;
         draft.unlikeButtonDone = false;
@@ -123,10 +170,10 @@ const rootReducer = (state = initialState, action) => {
         draft.loadPostFailure = null;
         break;
       case LOAD_POST_SUCCESS:
-        draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
-        draft.hasMorePosts = draft.mainPosts.length > 10;
+        draft.hasMorePosts = action.data.length === 10;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
@@ -141,6 +188,7 @@ const rootReducer = (state = initialState, action) => {
         draft.mainPosts.unshift(action.data);
         draft.addPostLoading = false;
         draft.addPostDone = true;
+        draft.imagePaths = [];
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;

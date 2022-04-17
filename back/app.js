@@ -10,6 +10,7 @@ const passport = require("passport");
 const passportConfig = require("./passport");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const path = require("path");
 const app = express();
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use(
     credentials: true, //쿠키를 같이 전달하고 싶으면 true로
   })
 );
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json()); //프론트에서 json형식으로 데이터를 보냈을때 req.body를 json형식으로 넣어줌
 app.use(express.urlencoded({ extended: true })); //form submit방식을 썼을때 urlencoded방식으로 넘어옴.
 app.use(cookieParser(process.env.COOKIE_SECRET));

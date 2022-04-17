@@ -48,7 +48,7 @@ const AppLayout = ({ children }) => {
   const classes = useStyles();
 
   return (
-    <>
+    <div>
       <Container className={classes.wrap}>
         <Grid item className={classes.textLayout}>
           <Link href="/">
@@ -110,7 +110,7 @@ const AppLayout = ({ children }) => {
           </a>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 

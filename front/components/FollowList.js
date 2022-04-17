@@ -36,8 +36,8 @@ const FollowList = ({ data, header }) => {
     <>
       <h3>{header}</h3>
       <List className={classes.listContainerWrap}>
-        {data.map((item) => (
-          <Card className={classes.listItemWrap}>
+        {data.map((item, idx) => (
+          <Card className={classes.listItemWrap} key={item.nickname + idx}>
             <ListItem className={classes.listItem}>
               <ListItemAvatar>
                 <PersonIcon style={{ width: "20px" }} />
