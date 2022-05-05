@@ -3,6 +3,15 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_HASHTAG_POSTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -31,11 +40,15 @@ import produce from "immer";
 
 export const initialState = {
   mainPosts: [],
+  singlePost: null,
   imagePaths: [],
   hasMorePosts: true,
   loadPostLoading: false,
   loadPostDone: false,
   loadPostFailure: null,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsFailure: null,
   addPostLoading: false,
   addPostDone: false,
   addPostFailure: null,
@@ -172,13 +185,34 @@ const rootReducer = (state = initialState, action) => {
       case LOAD_POST_SUCCESS:
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
-        draft.hasMorePosts = action.data.length === 10;
-        draft.mainPosts = draft.mainPosts.concat(action.data);
+        draft.singlePost = action.data;
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
         draft.loadPostFailure = action.error;
         break;
+      case LOAD_HASHTAG_POSTS_REQUEST:
+      case LOAD_USER_POSTS_REQUEST:
+      case LOAD_POSTS_REQUEST:
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsFailure = null;
+        break;
+      case LOAD_HASHTAG_POSTS_SUCCESS:
+      case LOAD_USER_POSTS_SUCCESS:
+      case LOAD_POSTS_SUCCESS:
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.hasMorePosts = action.data.length === 10;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
+        break;
+      case LOAD_HASHTAG_POSTS_FAILURE:
+      case LOAD_USER_POSTS_FAILURE:
+      case LOAD_POSTS_FAILURE:
+        draft.loadPostsLoading = false;
+        draft.loadPostsFailure = action.error;
+        break;
+
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;

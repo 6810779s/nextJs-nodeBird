@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import LoginForm from "./LoginForm";
@@ -44,8 +43,18 @@ const useStyles = makeStyles({
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector((state) => state.user);
+  const [search, setSearch] = useState("");
   // const [logInDone, setlogInDone] = useState(false);
   const classes = useStyles();
+  const searchChange = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+    },
+    [search]
+  );
+  const searchBtn = () => {
+    console.log(search);
+  };
 
   return (
     <div>
@@ -71,17 +80,17 @@ const AppLayout = ({ children }) => {
             className={classes.searchInputContainer}
             sm={3}
           >
-            <InputBase
-              placeholder="Search"
-              inputProps={{ "aria-label": "Search" }}
+            <input
+              style={{ border: "none" }}
+              placeholder="검색"
+              value={search}
+              onChange={searchChange}
             />
-            <IconButton type="submit" aria-label="search">
-              <Divider
-                style={{ height: 20, margin: 3 }}
-                orientation="vertical"
-              />
+
+            <Divider style={{ height: 20, margin: 3 }} orientation="vertical" />
+            <Button onClick={searchBtn}>
               <SearchIcon />
-            </IconButton>
+            </Button>
           </Paper>
         </Grid>
         <Grid item className={classes.textLayout}>

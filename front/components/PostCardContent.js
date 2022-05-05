@@ -1,20 +1,23 @@
-import React from 'react';
-import Link from 'next/link';
-import PropTypes from 'prop-types';
+import React from "react";
+import Link from "next/link";
+import PropTypes from "prop-types";
 
 const PostCardContent = ({ postData }) => {
   return (
     <div>
-      {postData.toString().split(/(#[^\s#]+)/g).map((v, i) => {
-        if (v.match(/(#[^\s#]+)/)) {
-          return (
-            <Link href="#" key={i}>
-              <a style={{ color: '#A3BFDF' }}>{v}</a>
-            </Link>
-          );
-        }
-        return v;
-      })}
+      {postData
+        .toString()
+        .split(/(#[^\s#]+)/g)
+        .map((v, i) => {
+          if (v.match(/(#[^\s#]+)/)) {
+            return (
+              <Link href={`/hashtag/${v.slice(1)}`} key={i}>
+                <a style={{ color: "#A3BFDF" }}>{v}</a>
+              </Link>
+            );
+          }
+          return v;
+        })}
     </div>
   );
 };

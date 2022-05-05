@@ -1,0 +1,186 @@
+@import './mixin/mixin';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.wrap {
+  width: 100%;
+  margin: auto;
+  header {
+    padding: 7rem 0;
+    background: #8d91eb;
+    color: #fff;
+    text-align: center;
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      padding-bottom: 1.5rem;
+      @include mobile {
+        font-size: 2.6rem;
+      }
+    }
+  }
+  .test-part-info {
+    padding: 4rem 0;
+    max-width: 62.5rem;
+    margin: auto;
+    text-align: center;
+    .detail {
+      h2 {
+        font-weight: 800;
+        margin-bottom: 3rem;
+      }
+      .test-part-explain {
+        text-align: center;
+        display: flex;
+        @include mobile {
+          display: block;
+        }
+        div {
+          width: 18rem;
+          height: 15rem;
+          padding: 1.5rem;
+          margin: auto;
+          background: #d9daf8;
+          border-radius: 1.875rem;
+          font-weight: 600;
+
+          @include mobile {
+            width: 16.5rem;
+          }
+          p {
+            margin-top: 1rem;
+            font-size: 1.3rem;
+            color: #576071;
+          }
+        }
+        div:nth-child(2n) {
+          margin: 0 2rem;
+          @include mobile {
+            margin: 3rem auto;
+          }
+        }
+      }
+    }
+  }
+
+  .test-form {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    max-width: 62.5rem;
+    margin: auto;
+    text-align: center;
+
+    :global .form-label {
+      h2 {
+        margin-bottom: 2rem;
+      }
+    }
+    :global .form-control {
+      width: 10rem;
+
+      &::placeholder {
+        text-align: center;
+      }
+    }
+    .code-num {
+      margin: auto;
+    }
+    :global .form-text {
+      margin: 2rem auto;
+    }
+
+    .info-group {
+      max-width: 20rem;
+      margin: 0 auto 1.3rem auto;
+      display: -webkit-flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .info-writing {
+        align-self: center;
+        width: 8rem;
+      }
+      .info-input {
+        align-self: center;
+        margin-right: 0;
+      }
+    }
+
+    :global .btn-group {
+      padding: 0;
+    }
+
+    :global .form-select {
+      align-self: center;
+      width: 10rem;
+    }
+
+    p {
+      margin-bottom: 0;
+      svg {
+        color: #fff;
+        margin-left: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .code-form {
+    max-width: 62.5rem;
+    margin: auto;
+    div {
+      margin: 0;
+    }
+    :global {
+      button {
+        color: #fff;
+        border: none !important;
+        font-weight: 600;
+        font-size: 1.1rem;
+        background: $maincolor;
+        border-radius: 1.875rem;
+        padding: 0.7rem 2rem;
+        text-align: center;
+        vertical-align: middle;
+        &:hover {
+          background: cornflowerblue;
+          & :local p {
+            & :local svg {
+              animation: leftRight 0.5s linear 2 alternate-reverse;
+            }
+          }
+        }
+      }
+    }
+
+    .btn-check:active + .btn-outline-primary,
+    .btn-check:checked + .btn-outline-primary,
+    .btn-outline-primary.active,
+    .btn-outline-primary.dropdown-toggle.show,
+    .btn-outline-primary:active {
+      color: #fff;
+      background-color: $maincolor2;
+      border-color: $maincolor2;
+    }
+
+    .btn-outline-primary {
+      background-color: #fff;
+      color: gray;
+      border-color: $maincolor2;
+      font-weight: 600;
+    }
+  }
+}
+
+@keyframes leftRight {
+  from {
+    transform: translateX(0.5rem);
+  }
+  to {
+    transform: none;
+  }
+}

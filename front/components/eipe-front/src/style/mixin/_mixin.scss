@@ -1,0 +1,158 @@
+/* 반응형 */
+$breakpoint-mobile: 769px;
+$maincolor: #8d91eb;
+$maincolor2: #5c6bc0;
+$subcolor: rgb(217, 218, 248);
+$grayline: #e0e0e0;
+$R: #f9b361;
+$I: #b167b0;
+$A: #666490;
+$S: #6874b1;
+$E: #589dd0;
+$C: #75cb80;
+// $a: #75cb800e;
+
+// $d: rgb(226, 242, 250);
+$self-understanding: rgb(217, 93, 107);
+$job-exploring: #db8ba4;
+$job-planning: #a75263;
+$all-score: #832237;
+
+$box-shadow: #00000080;
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile - 1px}) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin table-style($design-color, $col-color, $row-color) {
+  thead {
+    border-bottom: 3px solid $design-color;
+  }
+  .td-col-style {
+    width: 5rem;
+    background: $col-color;
+  }
+  .td-row-style {
+    background: $row-color;
+  }
+}
+
+@mixin job-profile($main-color) {
+  width: calc(62.5rem / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6rem;
+  @include mobile {
+    flex-direction: column;
+  }
+
+  .outer-img {
+    padding: 0.2rem;
+    border-radius: 50%;
+    border: 5px solid $main-color;
+    @include mobile {
+      margin-bottom: 0.5rem;
+    }
+    &:hover {
+      background-color: $subcolor;
+    }
+    .img {
+      border-radius: 50%;
+      border: 5px dotted $main-color;
+      padding: 1rem;
+    }
+  }
+
+  .arrow {
+    margin: 0 0.5rem;
+    display: block;
+    @include mobile {
+      display: none;
+    }
+  }
+
+  .arrow-mobile {
+    @include desktop {
+      display: none;
+    }
+    @include mobile {
+      margin: 0.5rem 0;
+      display: block;
+    }
+  }
+  .explain {
+    width: 16rem;
+    height: 9rem;
+    padding: 1rem;
+    // background-color: $main-color;
+    border: 7px solid $main-color;
+    box-shadow: 0.325rem 0.3125rem 0.3125rem $box-shadow;
+    border-radius: 0.625rem;
+    @include mobile {
+      max-width: 16rem;
+      height: 100%;
+    }
+    h4 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 2rem;
+    }
+  }
+}
+
+@mixin detail-result-desktop($name, $main-color) {
+  h3 {
+    font-weight: 700;
+    word-break: keep-all;
+    text-align: center;
+  }
+  .#{$name}-kinds {
+    display: flex;
+    justify-content: center;
+
+    div {
+      width: calc(62.5rem / 2.5);
+      height: 39rem;
+      padding: 5.2rem 2rem;
+      margin: 0 2rem;
+      h4 {
+        word-break: keep-all;
+        text-align: center;
+        margin: 1rem 0 2rem 0;
+      }
+    }
+  }
+}
+
+@mixin detail-result-mobile($main-color) {
+  h3 {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .result-container {
+    width: 16rem;
+    height: 38rem;
+
+    h4 {
+      text-align: center;
+      margin: 1rem 0 2rem 0;
+    }
+  }
+}
+
+@mixin percentage($top) {
+  position: absolute;
+  top: $top;
+  right: 0;
+  font-size: 0.85rem;
+}

@@ -35,6 +35,7 @@ import {
 } from "../constants/post";
 import Loading from "./Loading";
 import FollowButton from "./FollowButton";
+import Link from "next/link";
 
 const PostCard = ({ post }) => {
   const { me } = useSelector((state) => state.user);
@@ -91,7 +92,11 @@ const PostCard = ({ post }) => {
       <Card>
         <CardHeader
           avatar={<Avatar aria-label="userImg">{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
+          title={
+            <Link href={`/user/${post.User.id}`}>
+              <a>{post.User.nickname}</a>
+            </Link>
+          }
           action={
             <IconButton
               aria-label="more"

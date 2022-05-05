@@ -1,0 +1,151 @@
+@import './mixin/mixin';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.wrap {
+  .top {
+    display: flex;
+    align-items: center;
+    height: 3.9rem;
+    padding-left: 1rem;
+    background-color: #fff;
+
+    overflow: hidden;
+    color: black;
+    .logo {
+      p {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+    }
+
+    .current-part {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 26rem;
+      height: 100%;
+      margin-left: 3rem;
+      color: black;
+
+      @include mobile {
+        display: none;
+      }
+
+      p {
+        border: 1px solid $grayline;
+        border-top-right-radius: 1rem;
+        border-top-left-radius: 1rem;
+        padding: 0.4rem 1.3rem;
+        margin: 1.3rem 0 0 0;
+        font-size: 1.2rem;
+        background-color: $subcolor;
+        color: gray;
+      }
+
+      .selected {
+        background-color: $maincolor;
+        color: #fff;
+      }
+    }
+  }
+  section {
+    header {
+      padding: 7rem 2rem;
+      text-align: center;
+      background: $maincolor;
+      border-color: $maincolor;
+      color: white;
+      @include mobile {
+        padding: 3rem 2rem;
+      }
+      h2 {
+        font-size: 3rem;
+        padding-bottom: 1.5rem;
+        @include mobile {
+          font-size: 2.5rem;
+        }
+      }
+      h3 {
+        line-height: 2.3rem;
+        @include mobile {
+          font-size: 1.5rem;
+        }
+      }
+    }
+    article {
+      max-width: 43.75rem;
+      margin: auto;
+      form {
+        div:first-child {
+          margin: 0;
+        }
+        .form-btn-group {
+          margin: 0;
+          padding: 2rem 1rem;
+        }
+      }
+      :global .progress-bar {
+        background-color: $maincolor2;
+      }
+      :global .test-form {
+        padding: 2rem 0;
+        border-bottom: 1px solid $grayline;
+        @include mobile {
+          padding: 2rem 2rem;
+        }
+        p {
+          font-weight: 700;
+          font-size: 1.3rem;
+          line-height: 2rem;
+          @include mobile {
+            font-size: 1.1rem;
+          }
+        }
+
+        .btn-group {
+          @include mobile {
+            width: 100%;
+          }
+        }
+
+        .btn-check:active + .btn-primary,
+        .btn-check:checked + .btn-primary,
+        .btn-primary.active,
+        .btn-primary:active,
+        .show > .btn-primary.dropdown-toggle {
+          background-color: $maincolor2 !important;
+          color: white;
+          font-weight: 600;
+        }
+        .btn-primary {
+          background-color: #fff;
+          color: gray;
+          border-color: $maincolor2;
+          font-weight: 600;
+          &:hover {
+            color: #fff;
+            background-color: $maincolor2;
+          }
+          &:nth-child(2n) {
+            margin: 0 1rem;
+            @include mobile {
+              margin: 0 0.3rem;
+            }
+          }
+        }
+      }
+      :global button {
+        border-color: $maincolor;
+        background-color: $maincolor;
+        &:hover {
+          background: cornflowerblue;
+        }
+      }
+    }
+  }
+}

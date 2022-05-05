@@ -41,9 +41,9 @@ function loadMyInfoAPI() {
   return axios.get("/user");
   //baseURL = "http://localhost:3065";
 }
-function* loadMyInfo(action) {
+function* loadMyInfo() {
   try {
-    const result = yield call(loadMyInfoAPI, action.data);
+    const result = yield call(loadMyInfoAPI);
 
     yield put({
       type: LOAD_MY_INFO_SUCCESS,
@@ -58,19 +58,20 @@ function* loadMyInfo(action) {
   }
 }
 
-function loadUserInfoAPI() {
+function loadUserInfoAPI(data) {
   return axios.get(`/user/${data}`);
   //baseURL = "http://localhost:3065";
 }
 function* loadUserInfo(action) {
   try {
     const result = yield call(loadUserInfoAPI, action.data);
-
+    console.log(action.data);
     yield put({
       type: LOAD_USER_SUCCESS,
       data: result.data,
     });
   } catch (err) {
+    console.error("error", err);
     yield put({
       //put은 액션 dispatch와 비슷한것
       type: LOAD_USER_FAILURE,
