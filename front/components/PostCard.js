@@ -36,7 +36,9 @@ import {
 import Loading from "./Loading";
 import FollowButton from "./FollowButton";
 import Link from "next/link";
+import moment from "moment";
 
+moment.locale("ko");
 const PostCard = ({ post }) => {
   const { me } = useSelector((state) => state.user);
   const { removePostLoading } = useSelector((state) => state.post);
@@ -90,8 +92,15 @@ const PostCard = ({ post }) => {
   return (
     <div style={{ marginBottom: 30 }}>
       <Card>
+        <div style={{ float: "right" }}>{moment(post.createdAt).fromNow()}</div>
         <CardHeader
-          avatar={<Avatar aria-label="userImg">{post.User.nickname[0]}</Avatar>}
+          avatar={
+            <Link href={`/user/${post.User.id}`}>
+              <a>
+                <Avatar aria-label="userImg">{post.User.nickname[0]}</Avatar>
+              </a>
+            </Link>
+          }
           title={
             <Link href={`/user/${post.User.id}`}>
               <a>{post.User.nickname}</a>
@@ -113,13 +122,22 @@ const PostCard = ({ post }) => {
         <CardMedia style={{ margin: "auto" }}>
           {post.Images[0] && <PostImages images={post.Images} />}
         </CardMedia>
+
+        {/* 리트윗 게물 */}
         {post.RetweetId && post.Retweet ? (
           <Card>
+            <div style={{ float: "right" }}>
+              {moment(post.createdAt).format("YYYY.MM.DD")}
+            </div>
             <CardHeader
               avatar={
-                <Avatar aria-label="userImg">
-                  {post.Retweet.User.nickname[0]}
-                </Avatar>
+                <Link href={`/user/${post.User.id}`}>
+                  <a>
+                    <Avatar aria-label="userImg">
+                      {post.Retweet.User.nickname[0]}
+                    </Avatar>
+                  </a>
+                </Link>
               }
               title={post.Retweet.User.nickname}
             />
@@ -198,7 +216,11 @@ const PostCard = ({ post }) => {
             {post.Comments.map((data) => (
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar>{data.User.nickname[0]}</Avatar>
+                  <Link href={`/user/${data.User.id}`}>
+                    <a>
+                      <Avatar>{data.User.nickname[0]}</Avatar>
+                    </a>
+                  </Link>
                 </ListItemAvatar>
                 <ListItemText
                   primary={data.User.nickname}

@@ -14,6 +14,7 @@ import Link from "next/link";
 import PersonIcon from "@material-ui/icons/Person";
 import HomeIcon from "@material-ui/icons/Home";
 import { useSelector } from "react-redux";
+import Router from "next/router";
 const useStyles = makeStyles({
   wrap: {
     display: "flex",
@@ -52,9 +53,9 @@ const AppLayout = ({ children }) => {
     },
     [search]
   );
-  const searchBtn = () => {
-    console.log(search);
-  };
+  const searchBtn = useCallback(() => {
+    Router.push(`/hashtag/${search}`);
+  }, [search]);
 
   return (
     <div>
