@@ -14,6 +14,21 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWERS_SUCCESS,
+  LOAD_FOLLOWERS_FAILURE,
+  LOAD_FOLLOWINGS_REQUEST,
+  LOAD_FOLLOWINGS_SUCCESS,
+  LOAD_FOLLOWINGS_FAILURE,
 } from "../constants/user";
 import { all, fork, put, takeLatest, delay, call } from "redux-saga/effects";
 import axios from "axios";
@@ -22,17 +37,101 @@ import axios from "axios";
 //takeLeading: 맨처음 하나만 올라감.
 //throttle: 설정한 시간동안 누른 동작이 여러개면, 하나만 액션동작
 
-// function logInAPI(data) {
-//   return axios.post('/api/login', data);
-// }
+function loadMyInfoAPI() {
+  return axios.get("/user");
+  //baseURL = "http://localhost:3065";
+}
+function* loadMyInfo() {
+  try {
+    const result = yield call(loadMyInfoAPI);
 
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      //put은 액션 dispatch와 비슷한것
+      type: LOAD_MY_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadUserInfoAPI(data) {
+  return axios.get(`/user/${data}`);
+  //baseURL = "http://localhost:3065";
+}
+function* loadUserInfo(action) {
+  try {
+    const result = yield call(loadUserInfoAPI, action.data);
+    console.log(action.data);
+    yield put({
+      type: LOAD_USER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error("error", err);
+    yield put({
+      //put은 액션 dispatch와 비슷한것
+      type: LOAD_USER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadFollowersAPI(data) {
+  return axios.get("/user/followers", data);
+  //baseURL = "http://localhost:3065";
+}
+function* loadFollowers(action) {
+  try {
+    const result = yield call(loadFollowersAPI, action.data);
+
+    yield put({
+      type: LOAD_FOLLOWERS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      //put은 액션 dispatch와 비슷한것
+      type: LOAD_FOLLOWERS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadFollowingsPI(data) {
+  return axios.get("/user/followings", data);
+  //baseURL = "http://localhost:3065";
+}
+function* loadFollowings(action) {
+  try {
+    const result = yield call(loadFollowingsPI, action.data);
+    yield put({
+      type: LOAD_FOLLOWINGS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      //put은 액션 dispatch와 비슷한것
+      type: LOAD_FOLLOWINGS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function logInAPI(data) {
+  return axios.post("/user/login", data);
+  //baseURL = "http://localhost:3065";
+}
 function* logIn(action) {
   try {
-    // const result = yield call(logInAPI, action.data);
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);
+
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -43,14 +142,13 @@ function* logIn(action) {
   }
 }
 
-// function logOutAPI() {
-//   return axios.post('/api/logout');
-// }
+function logOutAPI() {
+  return axios.post("/user/logout");
+}
 
 function* logOut() {
   try {
-    yield delay(1000);
-    // const result = yield call(logOutAPI);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -64,18 +162,20 @@ function* logOut() {
   }
 }
 
-// function signUpAPI() {
-//   return axios.post('/api/signup');
-// }
+//proxy, cors를 피해가는 방법중 하나. 브라우저=>프론트=>백엔드=>프론트=>브라우저
 
-function* signUp() {
+function signUpAPI(data) {
+  return axios.post("/user", data);
+}
+
+function* signUp(action) {
   try {
-    // const result = yield call(signUpAPI);
-    yield delay(1000);
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     yield put({
       type: SIGN_UP_FAILURE,
       error: err.response.data,
@@ -83,17 +183,15 @@ function* signUp() {
   }
 }
 
-// function followingAPI() {
-//   return axios.post('/api/signup');
-// }
-
+function followingAPI(data) {
+  return axios.patch(`/user/${data}/follow`);
+}
 function* following(action) {
   try {
-    // const result = yield call(signUpAPI);
-    yield delay(1000);
+    const result = yield call(followingAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -103,17 +201,16 @@ function* following(action) {
   }
 }
 
-// function unfollowingAPI() {
-//   return axios.post('/api/signup');
-// }
+function unfollowingAPI(data) {
+  return axios.delete(`/user/${data}/follow`);
+}
 
 function* unfollowing(action) {
   try {
-    // const result = yield call(signUpAPI);
-    yield delay(1000);
+    const result = yield call(unfollowingAPI, action.data);
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -123,11 +220,27 @@ function* unfollowing(action) {
   }
 }
 
-function* watchLogIn() {
-  //   while (true) {
-  //     yield take('LOG_IN_REQUEST', logIn);
-  //   }
+function changeNicknameAPI(data) {
+  return axios.patch("/user/nickname", { nickname: data });
+}
 
+function* changeNickname(action) {
+  try {
+    const result = yield call(changeNicknameAPI, action.data);
+    yield put({
+      type: CHANGE_NICKNAME_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: CHANGE_NICKNAME_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn); // 위에 반복문 쓴것과 똑같이 작동
 }
 
@@ -146,6 +259,25 @@ function* watchFollowing() {
 function* watchUnfollowing() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollowing);
 }
+
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
+function* watchLoadUserInfo() {
+  yield takeLatest(LOAD_USER_REQUEST, loadUserInfo);
+}
+
+function* watchChangeNickname() {
+  yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
+}
+
+function* watchLoadFollowers() {
+  yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
+}
+function* watchLoadFollowings() {
+  yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogIn),
@@ -153,5 +285,10 @@ export default function* userSaga() {
     fork(watchSignUp),
     fork(watchFollowing),
     fork(watchUnfollowing),
+    fork(watchLoadMyInfo),
+    fork(watchLoadUserInfo),
+    fork(watchLoadFollowers),
+    fork(watchLoadFollowings),
+    fork(watchChangeNickname),
   ]);
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Card,
   List,
   ListItem,
@@ -8,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PersonIcon from "@material-ui/icons/Person";
-import { FullscreenExit } from "@material-ui/icons";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
   listContainerWrap: {
@@ -30,25 +31,34 @@ const useStyles = makeStyles({
   },
   listItem: { display: "flex", alignItems: "center" },
 });
-const FollowList = ({ data, header }) => {
+const FollowList = ({ data, header, onClickMore, loading }) => {
   const classes = useStyles();
   return (
     <>
       <h3>{header}</h3>
       <List className={classes.listContainerWrap}>
-        {data.map((item) => (
-          <Card className={classes.listItemWrap}>
-            <ListItem className={classes.listItem}>
-              <ListItemAvatar>
-                <PersonIcon style={{ width: "20px" }} />
-              </ListItemAvatar>
-              <ListItemText primary={item.nickname} />
-            </ListItem>
-          </Card>
-        ))}
+        {data &&
+          data.map((item, idx) => (
+            <Card className={classes.listItemWrap} key={item.nickname + idx}>
+              <ListItem className={classes.listItem}>
+                <ListItemAvatar>
+                  <PersonIcon style={{ width: "20px" }} />
+                </ListItemAvatar>
+                <ListItemText primary={item.nickname} />
+              </ListItem>
+            </Card>
+          ))}
       </List>
+      {!loading && <Button onClick={onClickMore}>더보기</Button>}
     </>
   );
+};
+
+FollowList.propTypes = {
+  header: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  onClickMore: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default FollowList;

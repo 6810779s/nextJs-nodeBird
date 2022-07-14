@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import Link from "next/link";
 import { Copyright } from "@material-ui/icons";
@@ -21,6 +21,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpRequestAction } from "../reducers/user";
 import Loading from "./Loading";
+import Router from "next/router";
 // import {
 //   MuiPickersUtilsProvider,
 //   KeyboardDatePicker,
@@ -29,10 +30,15 @@ import Loading from "./Loading";
 const useStyles = makeStyles({});
 const SignUpForm = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone } = useSelector((state) => state.user);
   const [checkState, setCheckState] = useState(false);
   const [signUpState, setSignUpState] = useState(false);
   const [selectedDate, handleDateChange] = useState(new Date());
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push("/");
+    }
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,14 +50,19 @@ const SignUpForm = () => {
       checkState
     ) {
       setSignUpState(true);
-      // dispatch(signUpRequestAction({ email, password, nickname }));
+      dispatch(
+        signUpRequestAction({
+          email: data.get("userEmail"),
+          password: data.get("password"),
+          nickname: `${data.get("firstName")} ${data.get("lastName")}`,
+        })
+      );
     } else {
       setSignUpState(false);
     }
   };
 
   const checkBoxState = useCallback((e) => {
-    console.log(e.target.checked);
     if (e.target.checked) {
       setCheckState(true);
     } else {

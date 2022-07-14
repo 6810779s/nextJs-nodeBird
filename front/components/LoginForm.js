@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { logInLoading } = useSelector((state) => state.user);
+  const { logInLoading, logInFailure } = useSelector((state) => state.user);
   // const [id, setId] = useState('');
   // const [password, setPassword] = useState('');
   const classes = useStyles();
@@ -39,12 +39,11 @@ const LoginForm = () => {
     const password = data.get("password");
     dispatch(loginRequestAction({ userEmail, password }));
   };
-  // const onChangeId = useCallback((e) => {
-  //   setId(e.target.value);
-  // }, []);
-  // const onChangePassword = useCallback((e) => {
-  //   setPassword(e.target.value);
-  // }, []);
+  useEffect(() => {
+    if (logInFailure) {
+      alert(logInFailure);
+    }
+  }, [logInFailure]);
 
   return (
     <Container component="main" className={classes.loginWrap}>

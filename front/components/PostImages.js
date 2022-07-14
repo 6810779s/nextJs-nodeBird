@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import AddIcon from '@material-ui/icons/Add';
-import ImagesZoom from './imagesZoom';
+import React, { useCallback, useState } from "react";
+import PropTypes from "prop-types";
+import AddIcon from "@material-ui/icons/Add";
+import ImagesZoom from "./imagesZoom";
 
 const PostImages = ({ images }) => {
   const [showImageszoom, setShowImageszoom] = useState(false);
@@ -16,7 +16,7 @@ const PostImages = ({ images }) => {
       <>
         <img
           role="presentation"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
@@ -26,18 +26,18 @@ const PostImages = ({ images }) => {
   } else if (images.length === 2) {
     return (
       <>
-        {' '}
+        {" "}
         <img
           role="presentation"
           width="50%"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
         <img
           role="presentation"
           width="50%"
-          src={images[1].src}
+          src={`http://localhost:3065/${images[1].src}`}
           alt={images[1].src}
           onClick={onZoom}
         />
@@ -47,23 +47,23 @@ const PostImages = ({ images }) => {
   }
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <img
           role="presentation"
           width="50%"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
         <div
           role="presentation"
           style={{
-            width: '50%',
-            textAlign: 'center',
+            width: "50%",
+            textAlign: "center",
           }}
           onClick={onZoom}
         >
-          <AddIcon style={{ fontSize: '50px', cursor: 'pointer' }} />
+          <AddIcon style={{ fontSize: "50px", cursor: "pointer" }} />
           <br />
           {images.length - 1} 개의 사진 더보기
         </div>

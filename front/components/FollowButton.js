@@ -10,25 +10,24 @@ const FollowButton = ({ post }) => {
   const { followingLoading, unfollowingLoading, me } = useSelector(
     (state) => state.user
   );
+
   const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
-  console.log("isFollowing:", isFollowing);
-  useEffect(() => {
-    console.log();
-  }, []);
   const followButtonClick = useCallback(() => {
-    console.log("followingId:", isFollowing);
     if (!isFollowing) {
       dispatch({
         type: FOLLOW_REQUEST,
-        data: { id: post.User.id, nickname: post.User.nickname },
+        data: post.User.id,
       });
     } else {
       dispatch({
         type: UNFOLLOW_REQUEST,
-        data: { id: post.User.id, nickname: post.User.nickname },
+        data: post.User.id,
       });
     }
-  }, [followingLoading, unfollowingLoading]);
+  }, [isFollowing]);
+  if (me.id === post.User.id) {
+    return null;
+  }
   return (
     <Button onClick={followButtonClick}>
       {followingLoading || unfollowingLoading ? (
