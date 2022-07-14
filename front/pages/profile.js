@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import React from "react";
 import NickNameEditForm from "../components/NickNameEditForm";
 import FollowList from "../components/FollowList";
 import { useDispatch, useSelector } from "react-redux";
