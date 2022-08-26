@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap");
+@import "./variables";
+
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  align-items: center;
+  max-width: 1000px;
+  a {
+    text-decoration: none;
+  }
+  .logo {
+    margin-right: 50px;
+    font-size: 36px;
+    font-family: "Dancing Script", cursive;
+  }
+  .searchInputContainer {
+    display: flex;
+    height: 50px;
+    border-radius: 5px;
+    padding: 0 0 0 15px;
+    background-color: #efefef;
+    box-shadow: none;
+    .searchInputStyle {
+      width: 270px;
+      font-size: 20px;
+      background-color: #efefef;
+      &::-webkit-input-placeholder {
+        color: rgb(148, 144, 144);
+      }
+    }
+    button {
+      color: gray;
+    }
+  }
+  .menu {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    .textLayout {
+      text-align: center;
+    }
+    .homeIcon {
+      color: black;
+      font-size: 40px;
+    }
+  }
+}
+
+// .loginContainer {
+//   display: flex;
+//   width: 980px;
+//   margin: auto;
+//   padding-top: 72px;
+//   padding-bottom: 112px;
+//   .logo {
+//     width: 580px;
+//     padding-right: 40px;
+//     display: flex;
+//     flex-direction: column;
+//     h3 {
+//       padding: 112px 0 12px 0;
+//       font-size: 60px;
+//       font-family: "Dancing Script", cursive;
+//     }
+//     .content {
+//       font-size: 30px;
+//     }
+//   }
+// }

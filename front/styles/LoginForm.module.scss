@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap");
+@import "./variables";
+.loginContainer {
+  display: flex;
+  width: 980px;
+  margin: auto;
+  padding-top: 72px;
+  padding-bottom: 112px;
+  .logo {
+    width: 580px;
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    h3 {
+      padding: 112px 0 12px 0;
+      font-size: 60px;
+      font-family: "Dancing Script", cursive;
+    }
+    .content {
+      font-size: 30px;
+    }
+  }
+
+  .loginWrap {
+    width: 580px;
+    margin-top: 70px;
+    .loginFormStyle {
+      padding: 20px 40px;
+      border-radius: 15px;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+
+      .textFieldStyle {
+        padding: 5px 0px;
+        border-radius: 5px;
+        background-color: $subColor;
+      }
+      .buttonStyle {
+        color: white;
+        font-weight: 700;
+        font-size: 25px;
+        background-color: $mainColor;
+        padding: 8px 0;
+      }
+      .infoContainer {
+        flex-direction: column;
+        display: flex;
+
+        padding: 30px 0;
+
+        .info {
+          flex: 1;
+          padding: 20px 0;
+          text-align: center;
+          font-size: 15px;
+          a {
+            color: $mainColor;
+            text-decoration: none;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+        .btnStyle {
+          width: 130px;
+          margin: 20px auto 0 auto;
+          padding: 15px 0;
+          border-radius: 5px;
+          color: white;
+          background-color: #42b72a;
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

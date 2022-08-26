@@ -8,45 +8,18 @@ import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
-import { makeStyles } from "@material-ui/core/styles";
-import { Container } from "@material-ui/core";
 import Link from "next/link";
-import PersonIcon from "@material-ui/icons/Person";
 import HomeIcon from "@material-ui/icons/Home";
 import { useSelector } from "react-redux";
 import Router from "next/router";
-const useStyles = makeStyles({
-  wrap: {
-    display: "flex",
-    margin: "auto",
-    justifyContent: "space-around",
-    alignItems: "center",
-    maxWidth: "1000px",
-  },
-  mainMenu: {
-    padding: "10px 0 10px 0",
-  },
-  searchInputContainer: {
-    display: "flex",
-    height: "30px",
-  },
-  inputDivide: {
-    height: "20px",
-    margin: "3px",
-  },
-  loginForm: {
-    margin: "auto",
-  },
-  textLayout: {
-    textAlign: "center",
-  },
-});
+import styles from "../styles/Applayout.module.scss";
+import { Avatar } from "@material-ui/core";
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   // const [logInDone, setlogInDone] = useState(false);
-  const classes = useStyles();
+  // const classes = useStyles();
   const searchChange = useCallback(
     (e) => {
       setSearch(e.target.value);
@@ -58,69 +31,76 @@ const AppLayout = ({ children }) => {
   }, [search]);
 
   return (
-    <div>
-      <Container className={classes.wrap}>
-        <Grid item className={classes.textLayout}>
-          <Link href="/">
-            <a>
-              <HomeIcon /> <br />홈
-            </a>
-          </Link>
-        </Grid>
-        <Grid item className={classes.textLayout}>
-          <Link href="/profile">
-            <a>
-              <FavoriteIcon /> <br />
-              프로필
-            </a>
-          </Link>
-        </Grid>
-        <Grid item>
-          <Paper
-            component="form"
-            className={classes.searchInputContainer}
-            sm={3}
-          >
-            <input
-              style={{ border: "none" }}
-              placeholder="검색"
-              value={search}
-              onChange={searchChange}
-            />
+    <>
+      {me ? (
+        <div>
+          <div className={styles.wrap}>
+            <div className={styles.logo}>LifeTory</div>
+            <div>
+              <Paper component="form" className={styles.searchInputContainer}>
+                <input
+                  className={styles.searchInputStyle}
+                  style={{ border: "none" }}
+                  placeholder="검색"
+                  value={search}
+                  onChange={searchChange}
+                />
 
-            <Divider style={{ height: 20, margin: 3 }} orientation="vertical" />
-            <Button onClick={searchBtn}>
-              <SearchIcon />
-            </Button>
-          </Paper>
-        </Grid>
-        <Grid item className={classes.textLayout}>
-          <Link href="/signup">
-            <a>
-              <PersonIcon /> <br />
-              회원가입
-            </a>
-          </Link>
-        </Grid>
-      </Container>
-      <Grid container maxwidth="xs" item justifyContent="center" spacing={3}>
-        <Grid item xs={12} md={12}>
-          {me ? <UserProfile /> : <LoginForm />}
-        </Grid>
-        <Grid item xs={6} md={6}>
-          {children}
-        </Grid>
-        <Grid item xs={12} md={12}>
-          <a
-            href="https://www.github.com/6810779s"
-            target="_blank"
-            rel="noreferrer noopener"
+                <Divider
+                  style={{ height: 20, margin: "auto" }}
+                  orientation="vertical"
+                />
+                <Button onClick={searchBtn}>
+                  <SearchIcon />
+                </Button>
+              </Paper>
+            </div>
+            <div className={styles.menu}>
+              <div className={styles.textLayout}>
+                <Link href="/">
+                  <a>
+                    <HomeIcon className={styles.homeIcon} />
+                    {/* <br />홈 */}
+                  </a>
+                </Link>
+              </div>
+              <div>
+                <Link href="/profile">
+                  <a>
+                    <Avatar>{me.nickname[0]}</Avatar>
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
+          <Grid
+            container
+            maxwidth="xs"
+            item
+            justifyContent="center"
+            spacing={3}
           >
-            Made by eunhee
-          </a>
-        </Grid>
-      </Grid>
-    </div>
+            <Grid item xs={12} md={12}>
+              {me ? <UserProfile /> : <LoginForm />}
+            </Grid>
+            <Grid item xs={6} md={6}>
+              {children}
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <a
+                href="https://www.github.com/6810779s"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Made by eunhee
+              </a>
+            </Grid>
+          </Grid>
+        </div>
+      ) : (
+        <LoginForm />
+      )}
+    </>
   );
 };
 
