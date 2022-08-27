@@ -39,6 +39,7 @@ import Link from "next/link";
 import moment from "moment";
 
 moment.locale("ko");
+
 const PostCard = ({ post }) => {
   const { me } = useSelector((state) => state.user);
   const { removePostLoading } = useSelector((state) => state.post);

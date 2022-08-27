@@ -33,60 +33,54 @@ const AppLayout = ({ children }) => {
   return (
     <>
       {me ? (
-        <div>
-          <div className={styles.wrap}>
-            <div className={styles.logo}>LifeTory</div>
-            <div>
-              <Paper component="form" className={styles.searchInputContainer}>
-                <input
-                  className={styles.searchInputStyle}
-                  style={{ border: "none" }}
-                  placeholder="검색"
-                  value={search}
-                  onChange={searchChange}
-                />
-
-                <Divider
-                  style={{ height: 20, margin: "auto" }}
-                  orientation="vertical"
-                />
-                <Button onClick={searchBtn}>
-                  <SearchIcon />
-                </Button>
-              </Paper>
-            </div>
-            <div className={styles.menu}>
-              <div className={styles.textLayout}>
-                <Link href="/">
-                  <a>
-                    <HomeIcon className={styles.homeIcon} />
-                    {/* <br />홈 */}
-                  </a>
-                </Link>
-              </div>
+        <div className={styles.container}>
+          <div className={styles.menuContainer}>
+            <div className={styles.wrap}>
+              <div className={styles.logo}>LifeTory</div>
               <div>
-                <Link href="/profile">
-                  <a>
-                    <Avatar>{me.nickname[0]}</Avatar>
-                  </a>
-                </Link>
+                <Paper component="form" className={styles.searchInputContainer}>
+                  <input
+                    className={styles.searchInputStyle}
+                    style={{ border: "none" }}
+                    placeholder="검색"
+                    value={search}
+                    onChange={searchChange}
+                  />
+
+                  <Divider
+                    style={{ height: 20, margin: "auto" }}
+                    orientation="vertical"
+                  />
+                  <Button onClick={searchBtn}>
+                    <SearchIcon />
+                  </Button>
+                </Paper>
+              </div>
+              <div className={styles.menu}>
+                <div className={styles.textLayout}>
+                  <Link href="/">
+                    <a>
+                      <HomeIcon className={styles.homeIcon} />
+                      {/* <br />홈 */}
+                    </a>
+                  </Link>
+                </div>
+                <div>
+                  <Link href="/profile">
+                    <a>
+                      <Avatar>{me.nickname[0]}</Avatar>
+                    </a>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-          <Grid
-            container
-            maxwidth="xs"
-            item
-            justifyContent="center"
-            spacing={3}
-          >
-            <Grid item xs={12} md={12}>
-              {me ? <UserProfile /> : <LoginForm />}
-            </Grid>
-            <Grid item xs={6} md={6}>
-              {children}
-            </Grid>
-            <Grid item xs={12} md={12}>
+          <div className={styles.mainContainer}>
+            <div>
+              <UserProfile />
+            </div>
+            <div>{children}</div>
+            <div>
               <a
                 href="https://www.github.com/6810779s"
                 target="_blank"
@@ -94,8 +88,8 @@ const AppLayout = ({ children }) => {
               >
                 Made by eunhee
               </a>
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </div>
       ) : (
         <LoginForm />

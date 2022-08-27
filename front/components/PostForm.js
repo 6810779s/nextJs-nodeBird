@@ -7,7 +7,8 @@ import {
   UPLOAD_IMAGES_REQUEST,
 } from "../constants/post";
 import { addPost } from "../reducers/post";
-
+import styles from "../styles/Postform.module.scss";
+import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 const PostForm = () => {
   const dispatch = useDispatch();
   //   const imageInput = useRef();
@@ -57,39 +58,42 @@ const PostForm = () => {
 
   return (
     <Box component="form" noValidate onSubmit={handleSubmit}>
-      <TextareaAutosize
-        name="dailyText"
-        id="dailyText"
-        aria-label="minimum height"
-        value={textAreaValue}
-        onChange={onChangeText}
-        minRows={5}
-        placeholder="어떤 신기한 일이 있었나요?"
-        autoFocus
-        style={{ width: "100%" }}
-      />
-      {/* <Input accept="image/*" multiple type="file" /> */}
-      <div>
-        <input
-          type="file"
-          ref={imageInput}
-          name="image"
-          multiple
-          hidden
-          onChange={onChangeImage}
+      <div className={styles.textAreaWrap}>
+        <textarea
+          className={styles.textAreaStyle}
+          name="dailyText"
+          id="dailyText"
+          aria-label="minimum height"
+          value={textAreaValue}
+          onChange={onChangeText}
+          minRows={5}
+          placeholder="재미있는 일상을 사람들과 공유해보아요."
+          autoFocus
         />
-        <Button onClick={onClickImageUpload} variant="contained">
-          이미지 업로드
-        </Button>
+        <div className={styles.buttonStyle}>
+          <div>
+            <input
+              type="file"
+              ref={imageInput}
+              name="image"
+              multiple
+              hidden
+              onChange={onChangeImage}
+            />
+            <Button
+              onClick={onClickImageUpload}
+              className={styles.insertImgBtn}
+            >
+              <ImageOutlinedIcon className={styles.insertImgIcon} />
+            </Button>
+          </div>
+          <Button type="submit" className={styles.addPostBtn}>
+            게시
+          </Button>
+        </div>
       </div>
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        style={{ marginTop: "10px" }}
-      >
-        짹짹
-      </Button>
+      {/* <Input accept="image/*" multiple type="file" /> */}
+
       <div>
         {imagePaths.map((v, i) => (
           <div key={v} style={{ display: "inline-block" }}>

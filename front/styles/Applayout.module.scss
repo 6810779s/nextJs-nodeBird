@@ -1,12 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap");
 @import "./variables";
 
+.container {
+  width: 100%;
+}
+
+.menuContainer {
+  width: 100%;
+  border-bottom: 1px solid rgb(206, 202, 202);
+}
 .wrap {
   display: flex;
   justify-content: space-between;
   margin: auto;
   align-items: center;
   max-width: 1000px;
+  padding: 7px 0;
+
   a {
     text-decoration: none;
   }
@@ -48,24 +58,7 @@
   }
 }
 
-// .loginContainer {
-//   display: flex;
-//   width: 980px;
-//   margin: auto;
-//   padding-top: 72px;
-//   padding-bottom: 112px;
-//   .logo {
-//     width: 580px;
-//     padding-right: 40px;
-//     display: flex;
-//     flex-direction: column;
-//     h3 {
-//       padding: 112px 0 12px 0;
-//       font-size: 60px;
-//       font-family: "Dancing Script", cursive;
-//     }
-//     .content {
-//       font-size: 30px;
-//     }
-//   }
-// }
+.mainContainer {
+  width: 600px;
+  margin: auto;
+}
