@@ -11,6 +11,7 @@ import useSWR from "swr";
 //   LOAD_FOLLOWINGS_REQUEST,
 // } from "../constants/user";
 import axios from "axios";
+import UserProfile from "../components/UserProfile";
 const fetcher = (url) =>
   axios.get(url, { withCredentials: true }).then((result) => result.data);
 const profile = () => {
@@ -59,6 +60,7 @@ const profile = () => {
         <title>profile | nodeBird</title>
       </Head>
       <AppLayout>
+        <UserProfile />
         <NickNameEditForm />
         <FollowList
           header="팔로잉 목록"

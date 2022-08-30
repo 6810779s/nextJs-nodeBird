@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FOLLOW_REQUEST, UNFOLLOW_REQUEST } from "../constants/user";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
-
+import styles from "../styles/FollowButton.module.scss";
 const FollowButton = ({ post }) => {
   const dispatch = useDispatch();
   const { followingLoading, unfollowingLoading, me } = useSelector(
@@ -29,7 +29,7 @@ const FollowButton = ({ post }) => {
     return null;
   }
   return (
-    <Button onClick={followButtonClick}>
+    <Button onClick={followButtonClick} className={styles.followButton}>
       {followingLoading || unfollowingLoading ? (
         <Loading />
       ) : isFollowing ? (

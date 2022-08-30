@@ -33,8 +33,9 @@ const PostForm = () => {
     imagePaths.forEach((i) => {
       formData.append("image", i);
     });
+
     formData.append("content", text);
-    if (data.get("dailyText") !== "") {
+    if (data.get("dailyText") !== "" || imagePaths.length !== 0) {
       return dispatch({ type: ADD_POST_REQUEST, data: formData });
     }
   };

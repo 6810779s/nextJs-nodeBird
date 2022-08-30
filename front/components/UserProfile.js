@@ -20,7 +20,6 @@ const UserProfile = () => {
   const { me, logOutLoading } = useSelector((state) => state.user);
   return (
     <>
-      <h3>Home</h3>
       <Card className={styles.cardLayout}>
         <CardHeader
           avatar={

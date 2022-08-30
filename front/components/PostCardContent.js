@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
-
+import styles from "../styles/PostCardContent.module.scss";
 const PostCardContent = ({ postData }) => {
   return (
-    <div>
+    <div className={styles.container}>
       {postData
         .toString()
         .split(/(#[^\s#]+)/g)

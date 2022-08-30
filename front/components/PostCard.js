@@ -37,6 +37,7 @@ import Loading from "./Loading";
 import FollowButton from "./FollowButton";
 import Link from "next/link";
 import moment from "moment";
+import styles from "../styles/PostCard.module.scss";
 
 moment.locale("ko");
 
@@ -91,9 +92,8 @@ const PostCard = ({ post }) => {
   const liked = post.Likers.find((v) => v.id === id);
 
   return (
-    <div style={{ marginBottom: 30 }}>
+    <div className={styles.container}>
       <Card>
-        <div style={{ float: "right" }}>{moment(post.createdAt).fromNow()}</div>
         <CardHeader
           avatar={
             <Link href={`/user/${post.User.id}`}>
@@ -103,28 +103,34 @@ const PostCard = ({ post }) => {
             </Link>
           }
           title={
-            <Link href={`/user/${post.User.id}`}>
-              <a>{post.User.nickname}</a>
-            </Link>
+            <>
+              <Link href={`/user/${post.User.id}`}>
+                <a>{post.User.nickname}</a>
+              </Link>
+              <div>{moment(post.createdAt).fromNow()}</div>
+            </>
           }
           action={
-            <IconButton
-              aria-label="more"
-              aria-describedby={UIid}
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-            >
-              <MoreHorizIcon />
-            </IconButton>
+            <div className={styles.moreMenuContainer}>
+              <div>{me && <FollowButton post={post} />}</div>
+              <IconButton
+                aria-label="more"
+                aria-describedby={UIid}
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+              >
+                <MoreHorizIcon className={styles.moreMenuIcon} />
+              </IconButton>
+            </div>
           }
-          subheader={me && <FollowButton post={post} />}
+          // subheader={me && <FollowButton post={post} />}
         />
         <CardMedia style={{ margin: "auto" }}>
           {post.Images[0] && <PostImages images={post.Images} />}
         </CardMedia>
 
-        {/* 리트윗 게물 */}
+        {/* 리트윗 게시물 */}
         {post.RetweetId && post.Retweet ? (
           <Card>
             <div style={{ float: "right" }}>
@@ -159,7 +165,7 @@ const PostCard = ({ post }) => {
 
         <CardActions disableSpacing>
           <IconButton aria-label="retweet" onClick={OnRetweet}>
-            <RepeatIcon />
+            <RepeatIcon className={styles.repearIcon} />
           </IconButton>
           {liked ? (
             <IconButton aria-label="add to favorite" onClick={onUnlike}>
@@ -171,7 +177,7 @@ const PostCard = ({ post }) => {
             </IconButton>
           )}
           <IconButton aria-label="comment" onClick={onToggleComment}>
-            <TextsmsIcon />
+            <TextsmsIcon className={styles.commentIcon} />
           </IconButton>
         </CardActions>
         <Popover

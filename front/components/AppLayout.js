@@ -76,9 +76,9 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
           <div className={styles.mainContainer}>
-            <div>
+            {/* <div>
               <UserProfile />
-            </div>
+            </div> */}
             <div>{children}</div>
             <div>
               <a
