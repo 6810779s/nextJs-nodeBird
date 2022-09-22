@@ -1,4 +1,10 @@
+@import "./variables";
 .cardLayout {
+  border: $borderRadius1;
+
+  button {
+    padding: 0;
+  }
   a {
     text-decoration: none;
   }

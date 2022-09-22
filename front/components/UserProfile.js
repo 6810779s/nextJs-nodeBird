@@ -30,17 +30,17 @@ const UserProfile = () => {
             </Link>
           }
           title={me.nickname}
-          subheader={
-            <Button
-              onClick={useCallback(() => {
-                dispatch(logoutRequestAction());
-                // setIsLoggedIn(false);
-              }, [])}
-            >
-              <LockOpenIcon />
-              {logOutLoading ? <Loading /> : "Logout"}
-            </Button>
-          }
+          // subheader={
+          //   <Button
+          //     onClick={useCallback(() => {
+          //       dispatch(logoutRequestAction());
+          //       // setIsLoggedIn(false);
+          //     }, [])}
+          //   >
+          //     <LockOpenIcon />
+          //     {logOutLoading ? <Loading /> : "Logout"}
+          //   </Button>
+          // }
         />
         <CardContent
           style={{ display: "flex", justifyContent: "space-between" }}

@@ -10,6 +10,16 @@
   display: flex;
   align-items: center;
 
+  a {
+    text-decoration: none;
+    height: 100%;
+    color: black;
+  }
+
+  .noFriend {
+    margin: auto;
+    text-align: center;
+  }
   .listItemWrap {
     height: 100%;
     width: 120px;

@@ -7,14 +7,19 @@ import SearchIcon from "@material-ui/icons/Search";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 import HomeIcon from "@material-ui/icons/Home";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Router from "next/router";
 import styles from "../styles/Applayout.module.scss";
 import { Avatar } from "@material-ui/core";
+import { logoutRequestAction } from "../reducers/user";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import classNames from "classnames/bind";
 
+const cx = classNames.bind(styles);
 const AppLayout = ({ children }) => {
   const { me } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
   // const [logInDone, setlogInDone] = useState(false);
   // const classes = useStyles();
   const searchChange = useCallback(
@@ -27,6 +32,9 @@ const AppLayout = ({ children }) => {
     Router.push(`/hashtag/${search}`);
   }, [search]);
 
+  const logout = useCallback(() => {
+    dispatch(logoutRequestAction());
+  }, []);
   return (
     <>
       {me ? (
@@ -54,7 +62,7 @@ const AppLayout = ({ children }) => {
                 </Paper>
               </div>
               <div className={styles.menu}>
-                <div className={styles.textLayout}>
+                <div className={cx("textLayout", "menuItem")}>
                   <Link href="/">
                     <a>
                       <HomeIcon className={styles.homeIcon} />
@@ -62,12 +70,17 @@ const AppLayout = ({ children }) => {
                     </a>
                   </Link>
                 </div>
-                <div>
+                <div className={styles.menuItem}>
                   <Link href="/profile">
                     <a>
                       <Avatar>{me.nickname[0]}</Avatar>
                     </a>
                   </Link>
+                </div>
+                <div className={styles.menuItem}>
+                  <Button onClick={logout}>
+                    <ExitToAppIcon className={styles.logoutIcon} />
+                  </Button>
                 </div>
               </div>
             </div>

@@ -50,15 +50,26 @@
     }
   }
   .menu {
-    width: 100px;
+    width: 170px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    .menuItem {
+      width: 50px;
+      display: flex;
+      justify-content: center;
+    }
     .textLayout {
       text-align: center;
     }
     .homeIcon {
       color: black;
       font-size: 40px;
+      height: 100%;
+    }
+    .logoutIcon {
+      font-size: 40px;
+      height: 100%;
     }
   }
 }

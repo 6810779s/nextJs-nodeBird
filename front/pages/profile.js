@@ -20,7 +20,7 @@ const profile = () => {
     `http://localhost:3065/user/followers?limit=${followersLimit}`,
     fetcher
   );
-  
+
   const { data: followingsData, error: followingError } = useSWR(
     `http://localhost:3065/user/followings?limit=${followingsLimit}`,
     fetcher
@@ -63,13 +63,13 @@ const profile = () => {
             <UserProfile />
             <NickNameEditForm />
             <FollowList
-              header="팔로잉 목록"
+              header="팔로잉"
               data={followingsData}
               onClickMore={loadMoreFollowings}
               loading={!followingsData && !followingError}
             />
             <FollowList
-              header="팔로워 목록"
+              header="팔로워"
               data={followersData}
               onClickMore={loadMoreFollowers}
               loading={!followersData && !followerError}
