@@ -4,49 +4,29 @@ import {
   Card,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemText,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import PersonIcon from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
+import styles from "../styles/FollowList.module.scss";
 
-const useStyles = makeStyles({
-  listContainerWrap: {
-    width: "100%",
-    height: "170px",
-    marginTop: "15px",
-    border: "1px solid #DCDBDA",
-    borderRadius: "5px",
-    padding: "13px",
-    overflowX: "auto",
-    whiteSpace: "nowrap",
-  },
-  listItemWrap: {
-    height: "160px",
-    width: "100px",
-    padding: "5px",
-    marginRight: "15px",
-    display: "inline-block",
-  },
-  listItem: { display: "flex", alignItems: "center" },
-});
+import Link from "next/link";
 const FollowList = ({ data, header, onClickMore, loading }) => {
-  const classes = useStyles();
   return (
     <>
       <h3>{header}</h3>
-      <List className={classes.listContainerWrap}>
+      <List style={{ padding: "0" }} className={styles.container}>
         {data &&
           data.map((item, idx) => (
-            <Card className={classes.listItemWrap} key={item.nickname + idx}>
-              <ListItem className={classes.listItem}>
-                <ListItemAvatar>
-                  <PersonIcon style={{ width: "20px" }} />
-                </ListItemAvatar>
-                <ListItemText primary={item.nickname} />
+            // <Link href={`/user/${}`}>
+            <Card className={styles.listItemWrap} key={item.nickname + idx}>
+              <ListItem className={styles.listItem}>
+                <div className={styles.profileImg}>
+                  <PersonIcon style={{ fontSize: "50px" }} />
+                </div>
+                <div>{item.nickname}</div>
               </ListItem>
             </Card>
+            // </Link>
           ))}
       </List>
       {!loading && <Button onClick={onClickMore}>더보기</Button>}

@@ -6,10 +6,7 @@ import FollowList from "../components/FollowList";
 import { useDispatch, useSelector } from "react-redux";
 import Router from "next/router";
 import useSWR from "swr";
-// import {
-//   LOAD_FOLLOWERS_REQUEST,
-//   LOAD_FOLLOWINGS_REQUEST,
-// } from "../constants/user";
+import styles from "../styles/profile.module.scss";
 import axios from "axios";
 import UserProfile from "../components/UserProfile";
 const fetcher = (url) =>
@@ -23,6 +20,7 @@ const profile = () => {
     `http://localhost:3065/user/followers?limit=${followersLimit}`,
     fetcher
   );
+  
   const { data: followingsData, error: followingError } = useSWR(
     `http://localhost:3065/user/followings?limit=${followingsLimit}`,
     fetcher
@@ -60,20 +58,24 @@ const profile = () => {
         <title>profile | nodeBird</title>
       </Head>
       <AppLayout>
-        <UserProfile />
-        <NickNameEditForm />
-        <FollowList
-          header="팔로잉 목록"
-          data={followingsData}
-          onClickMore={loadMoreFollowings}
-          loading={!followingsData && !followingError}
-        />
-        <FollowList
-          header="팔로워 목록"
-          data={followersData}
-          onClickMore={loadMoreFollowers}
-          loading={!followersData && !followerError}
-        />
+        <div className={styles.container}>
+          <div className={styles.wrap}>
+            <UserProfile />
+            <NickNameEditForm />
+            <FollowList
+              header="팔로잉 목록"
+              data={followingsData}
+              onClickMore={loadMoreFollowings}
+              loading={!followingsData && !followingError}
+            />
+            <FollowList
+              header="팔로워 목록"
+              data={followersData}
+              onClickMore={loadMoreFollowers}
+              loading={!followersData && !followerError}
+            />
+          </div>
+        </div>
       </AppLayout>
     </>
   );
