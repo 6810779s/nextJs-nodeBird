@@ -1,0 +1,51 @@
+@import "./variables";
+.container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: $borderRadius1;
+  z-index: 99;
+
+  .close {
+    cursor: pointer;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .signIcon {
+    display: flex;
+    border-radius: 50%;
+    padding: 8px;
+    color: #fff;
+    background-color: $mainColor;
+  }
+  .text {
+    margin-left: 8px;
+    font-size: 23px;
+    font-weight: 600;
+  }
+
+  .checkboxContainer {
+    align-items: center;
+    accent-color: $mainColor;
+    .helper {
+      height: 10px;
+      font-size: 13px;
+      color: red;
+    }
+  }
+
+  .signupBtn {
+    background-color: $mainColor;
+    color: #fff;
+    font-weight: 700;
+    margin: 15px 0;
+  }
+}

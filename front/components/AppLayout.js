@@ -1,13 +1,10 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
-import Grid from "@material-ui/core/Grid";
 import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfile";
 import Link from "next/link";
 import HomeIcon from "@material-ui/icons/Home";
 import { useSelector } from "react-redux";
@@ -76,11 +73,8 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
           <div className={styles.mainContainer}>
-            {/* <div>
-              <UserProfile />
-            </div> */}
             <div>{children}</div>
-            <div>
+            <footer>
               <a
                 href="https://www.github.com/6810779s"
                 target="_blank"
@@ -88,7 +82,7 @@ const AppLayout = ({ children }) => {
               >
                 Made by eunhee
               </a>
-            </div>
+            </footer>
           </div>
         </div>
       ) : (

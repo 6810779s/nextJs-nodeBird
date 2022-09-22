@@ -31,13 +31,35 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html
+        style={{
+          width: "100%",
+          height: "100%",
+          margin: "0",
+          padding: "0",
+        }}
+      >
         <Head />
         <body
-          style={{ padding: "0", margin: "0", width: "100%", height: "100%" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            margin: "0",
+            padding: "0",
+          }}
         >
-          <Main />
+          <Main
+            style={{ width: "100%", height: "100%", margin: "0", padding: "0" }}
+          />
           <NextScript />
+          <style>{`
+            #__next,
+            .main {
+              width:100%;
+              height: 100%;
+              
+            }
+          `}</style>
         </body>
       </Html>
     );

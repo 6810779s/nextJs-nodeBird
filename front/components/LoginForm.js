@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { Box, Button, Divider, Grid, TextField } from "@material-ui/core";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,9 +6,11 @@ import { loginRequestAction } from "../reducers/user";
 import Loading from "./Loading";
 import styles from "../styles/LoginForm.module.scss";
 import classNames from "classnames/bind";
+import SignUpForm from "./SignUpForm";
 
 const cx = classNames.bind(styles);
 const LoginForm = () => {
+  const [signToggle, setSignToggle] = useState(true);
   const dispatch = useDispatch();
   const { logInLoading, logInFailure } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
@@ -18,6 +20,18 @@ const LoginForm = () => {
     const password = data.get("password");
     dispatch(loginRequestAction({ userEmail, password }));
   };
+  const signupOpen = useCallback(
+    (e) => {
+      setSignToggle(true);
+    },
+    [signToggle]
+  );
+  const signupClose = useCallback(
+    (e) => {
+      setSignToggle(false);
+    },
+    [signToggle]
+  );
   useEffect(() => {
     if (logInFailure) {
       alert(logInFailure);
@@ -26,6 +40,7 @@ const LoginForm = () => {
 
   return (
     <div className={styles.loginContainer}>
+      {signToggle && <div className={styles.signupContainer}></div>}
       <div className={styles.logo}>
         <h3>LifeTory</h3>
         <div className={styles.content}>
@@ -78,13 +93,16 @@ const LoginForm = () => {
             </Grid>
             <Divider />
             <Grid className={cx("info", "btnStyle")}>
-              <Link href="/signup" variant="body2">
+              <Button onClick={signupOpen}>
                 <p>회원가입</p>
-              </Link>
+              </Button>
             </Grid>
           </Grid>
         </Box>
       </div>
+      {signToggle && (
+        <SignUpForm signToggle={signToggle} signupClose={signupClose} />
+      )}
     </div>
   );
 };

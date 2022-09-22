@@ -36,7 +36,7 @@ const PostForm = () => {
 
     formData.append("content", text);
     if (data.get("dailyText") !== "" || imagePaths.length !== 0) {
-      return dispatch({ type: ADD_POST_REQUEST, data: formData });
+      return dispatch(addPost(formData));
     }
   };
 

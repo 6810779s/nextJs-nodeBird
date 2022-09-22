@@ -265,6 +265,7 @@ function retweetAPI(data) {
 function* retweet(action) {
   try {
     const result = yield call(retweetAPI, action.data);
+    console.log("result:", result.data);
     yield put({
       type: RETWEET_SUCCESS,
       data: result.data,
@@ -322,6 +323,10 @@ function* watchUploadImages() {
 function* watchRetweet() {
   yield takeLatest(RETWEET_REQUEST, retweet);
 }
+
+// function* watchRetweetCount() {
+//   yield takeLatest(RetweetCount_REQUEST,)
+// }
 
 export default function* postSaga() {
   yield all([

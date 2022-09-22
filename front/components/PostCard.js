@@ -164,21 +164,33 @@ const PostCard = ({ post }) => {
         )}
 
         <CardActions disableSpacing>
-          <IconButton aria-label="retweet" onClick={OnRetweet}>
-            <RepeatIcon className={styles.repearIcon} />
-          </IconButton>
+          <div>
+            <IconButton aria-label="retweet" onClick={OnRetweet}>
+              <RepeatIcon className={styles.repearIcon} />
+            </IconButton>
+            <span></span>
+          </div>
           {liked ? (
-            <IconButton aria-label="add to favorite" onClick={onUnlike}>
-              <FavoriteIcon style={{ color: "red" }} />
-            </IconButton>
+            <div>
+              <IconButton aria-label="add to favorite" onClick={onUnlike}>
+                <FavoriteIcon style={{ color: "red" }} />
+              </IconButton>
+              <span></span>
+            </div>
           ) : (
-            <IconButton aria-label="add to favorite" onClick={onLike}>
-              <FavoriteBorderIcon />
-            </IconButton>
+            <div>
+              <IconButton aria-label="add to favorite" onClick={onLike}>
+                <FavoriteBorderIcon />
+              </IconButton>
+              <span></span>
+            </div>
           )}
-          <IconButton aria-label="comment" onClick={onToggleComment}>
-            <TextsmsIcon className={styles.commentIcon} />
-          </IconButton>
+          <div>
+            <IconButton aria-label="comment" onClick={onToggleComment}>
+              <TextsmsIcon className={styles.commentIcon} />
+            </IconButton>
+            <span>{}</span>
+          </div>
         </CardActions>
         <Popover
           id={UIid}

@@ -10,7 +10,7 @@ import { useInView } from "react-intersection-observer";
 import wrapper from "../store/configureStore";
 import { END } from "redux-saga";
 import axios from "axios";
-
+import styles from "../styles/Home.module.scss";
 const Home = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
@@ -49,21 +49,24 @@ const Home = () => {
 
   return (
     <AppLayout>
-      <h3>Home</h3>
-      {me && <PostForm />}
-      {mainPosts.map((post) => (
-        // <PostCard post={post} key={post.id} />
-        <React.Fragment key={post.id}>
-          <PostCard post={post} />
-          {post.id === mainPosts[mainPosts.length - 1]?.id && hasMorePosts ? (
-            <div ref={ref}>
-              <Loading />
-            </div>
-          ) : (
-            ""
-          )}
-        </React.Fragment>
-      ))}
+      <div className={styles.container}>
+        <h3>Home</h3>
+        {me && <PostForm />}
+
+        {mainPosts.map((post) => (
+          // <PostCard post={post} key={post.id} />
+          <React.Fragment key={post.id}>
+            <PostCard post={post} />
+            {post.id === mainPosts[mainPosts.length - 1]?.id && hasMorePosts ? (
+              <div ref={ref}>
+                <Loading />
+              </div>
+            ) : (
+              ""
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </AppLayout>
   );
 };

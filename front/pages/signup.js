@@ -20,12 +20,15 @@ const signup = () => {
   }, [signUpDone]);
 
   return (
-    <AppLayout>
+    <>
+      {/* <AppLayout> */}
       <Head>
         <title>signup | nodeBird</title>
       </Head>
       <SignUpForm />
-    </AppLayout>
+
+      {/* </AppLayout> */}
+    </>
   );
 };
 
