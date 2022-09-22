@@ -15,7 +15,7 @@ const signup = () => {
 
   useEffect(() => {
     if (signUpDone) {
-      Router.replace("/ ");
+      Router.replace("/");
     }
   }, [signUpDone]);
 

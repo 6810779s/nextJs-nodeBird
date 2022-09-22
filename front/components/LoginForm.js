@@ -10,7 +10,7 @@ import SignUpForm from "./SignUpForm";
 
 const cx = classNames.bind(styles);
 const LoginForm = () => {
-  const [signToggle, setSignToggle] = useState(true);
+  const [signToggle, setSignToggle] = useState(false);
   const dispatch = useDispatch();
   const { logInLoading, logInFailure } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
@@ -92,16 +92,20 @@ const LoginForm = () => {
               </Link>
             </Grid>
             <Divider />
-            <Grid className={cx("info", "btnStyle")}>
-              <Button onClick={signupOpen}>
-                <p>회원가입</p>
-              </Button>
-            </Grid>
+            {/* <Grid className={cx("info", "btnStyle")}> */}
+            <Button className={cx("info", "btnStyle")} onClick={signupOpen}>
+              회원가입
+            </Button>
+            {/* </Grid> */}
           </Grid>
         </Box>
       </div>
       {signToggle && (
-        <SignUpForm signToggle={signToggle} signupClose={signupClose} />
+        <SignUpForm
+          signToggle={signToggle}
+          signupClose={signupClose}
+          setSignToggle={setSignToggle}
+        />
       )}
     </div>
   );

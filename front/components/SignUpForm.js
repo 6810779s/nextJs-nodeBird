@@ -8,21 +8,27 @@ import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpRequestAction } from "../reducers/user";
 import Loading from "./Loading";
-import Router from "next/router";
 import styles from "../styles/SignUpForm.module.scss";
 
-const SignUpForm = ({ signupClose }) => {
+const SignUpForm = ({ signupClose, setSignToggle }) => {
   const dispatch = useDispatch();
-  const { signUpLoading, signUpDone } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone, signUpFailure } = useSelector(
+    (state) => state.user
+  );
   const [checkState, setCheckState] = useState(false);
   const [signUpState, setSignUpState] = useState(true);
   const [selectedDate, handleDateChange] = useState(new Date());
 
   useEffect(() => {
     if (signUpDone) {
-      Router.push("/");
+      setSignToggle(false);
     }
   });
+  useEffect(() => {
+    if (signUpFailure) {
+      alert(signUpFailure);
+    }
+  }, [signUpFailure]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -64,10 +70,6 @@ const SignUpForm = ({ signupClose }) => {
             <LockOutlinedIcon />
           </div>
           <div className={styles.text}>회원가입</div>
-          {/* <Avatar className={styles.signIcon}>
-            <LockOutlinedIcon />
-          </Avatar> */}
-          {/* <p className={styles.text}>회원가입</p> */}
         </div>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -82,16 +84,6 @@ const SignUpForm = ({ signupClose }) => {
                 autoFocus
               />
             </Grid>
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 id="date"

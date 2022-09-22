@@ -6,3 +6,10 @@ $borderColor2: #cecaca;
 $fontColor1: #66686c;
 
 $borderRadius1: 5px;
+
+@mixin addBtn {
+  background-color: $mainColor;
+  color: white;
+  border-radius: 20px;
+  font-weight: 500;
+}

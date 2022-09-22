@@ -30,12 +30,9 @@
       }
     }
     .addPostBtn {
-      background-color: $mainColor;
-      color: white;
+      @include addBtn;
       width: 100px;
-      border-radius: 20px;
       font-size: 15px;
-      font-weight: 500;
     }
   }
 }

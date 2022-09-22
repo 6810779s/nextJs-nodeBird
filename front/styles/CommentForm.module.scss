@@ -1,0 +1,9 @@
+@import "./variables";
+
+.container {
+  display: flex;
+  margin-top: 20px;
+  .addCommentBtn {
+    @include addBtn;
+  }
+}

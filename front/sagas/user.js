@@ -174,8 +174,8 @@ function* signUp(action) {
     yield put({
       type: SIGN_UP_SUCCESS,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     yield put({
       type: SIGN_UP_FAILURE,
       error: err.response.data,

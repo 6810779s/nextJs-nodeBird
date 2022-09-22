@@ -3,6 +3,7 @@ import { Box, Button, Input } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ADD_COMMENTS_REQUEST } from "../constants/post";
+import styles from "../styles/CommentForm.module.scss";
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const CommentForm = ({ post }) => {
         component="form"
         noValidate
         onSubmit={handleSubmit}
-        style={{ display: "flex", marginTop: "20px" }}
+        className={styles.container}
       >
         <Input
           style={{ flex: 1 }}
@@ -51,7 +52,7 @@ const CommentForm = ({ post }) => {
           type="text"
           ref={commentText}
         />
-        <Button type="submit" variant="contained" style={{ height: "30px" }}>
+        <Button type="submit" className={styles.addCommentBtn}>
           게시
         </Button>
       </Box>
