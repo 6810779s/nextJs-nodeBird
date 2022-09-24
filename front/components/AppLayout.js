@@ -41,7 +41,11 @@ const AppLayout = ({ children }) => {
         <div className={styles.container}>
           <div className={styles.menuContainer}>
             <div className={styles.wrap}>
-              <div className={styles.logo}>LifeTory</div>
+              <div className={styles.logo}>
+                <Link href="/">
+                  <a>LifeTory</a>
+                </Link>
+              </div>
               <div>
                 <Paper component="form" className={styles.searchInputContainer}>
                   <input

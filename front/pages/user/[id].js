@@ -21,7 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import PostCard from "../../components/PostCard";
 import Loading from "../../components/Loading";
 import UserProfile from "../../components/UserProfile";
-
+import styles from "../../styles/userPosts.module.scss";
 const useStyles = makeStyles({
   profileWrap: { maxWidth: "500px", margin: "auto", padding: "30px" },
   typographyBox: { width: "55px", background: "#E6E6E6", textAlign: "center" },
@@ -61,72 +61,44 @@ const User = () => {
   console.log("mainPosts:", mainPosts);
   return (
     <AppLayout>
-      {userInfo && (
-        <Head>
-          <title>{userInfo.nickname}님의 글</title>
-          <meta
-            name="description"
-            content={`${userInfo.nickname}님의 게시글`}
-          />
-          <meta
-            property="og:title"
-            content={`${userInfo.nickname}님의 게시글`}
-          />
-          <meta
-            property="og:description"
-            content={`${userInfo.nickname}님의 게시글`}
-          />
-          {/* <meta property="og:image" content={singlePost.Images[0]?singlePost.Images[0].src:"https://nodebird.com/favicon.icon"}/>
+      <div className={styles.container}>
+        <div className={styles.wrap}>
+          {userInfo && (
+            <Head>
+              <title>{userInfo.nickname}님의 글</title>
+              <meta
+                name="description"
+                content={`${userInfo.nickname}님의 게시글`}
+              />
+              <meta
+                property="og:title"
+                content={`${userInfo.nickname}님의 게시글`}
+              />
+              <meta
+                property="og:description"
+                content={`${userInfo.nickname}님의 게시글`}
+              />
+              {/* <meta property="og:image" content={singlePost.Images[0]?singlePost.Images[0].src:"https://nodebird.com/favicon.icon"}/>
         <meta property="og:url" content={`https://nodebird.com/user/${id}`}/> */}
-        </Head>
-      )}
-      {userInfo ? (
-        <UserProfile info={userInfo} />
-      ) : (
-        // <Card className={classes.cardLayout}>
-        //   <CardHeader
-        //     avatar={
-        //       <Avatar aria-label="userProfile">{userInfo.nickname[0]}</Avatar>
-        //     }
-        //     title={userInfo.nickname}
-        //   />
-        //   <CardContent
-        //     style={{ display: "flex", justifyContent: "space-between" }}
-        //   >
-        //     <Typography className={classes.typographyBox}>
-        //       짹짹
-        //       <br />
-        //       {userInfo.Posts}
-        //     </Typography>
-        //     <Divider style={{ height: 50 }} orientation="vertical" />
-        //     <Typography className={classes.typographyBox}>
-        //       팔로워
-        //       <br />
-        //       {userInfo.Followers}
-        //     </Typography>
-        //     <Divider style={{ height: 50 }} orientation="vertical" />
-        //     <Typography className={classes.typographyBox}>
-        //       팔로잉
-        //       <br />
-        //       {userInfo.Followings}
-        //     </Typography>
-        //   </CardContent>
-        // </Card>
-        ""
-      )}
-      {mainPosts.map((post) => (
-        // <PostCard post={post} key={post.id} />
-        <React.Fragment key={post.id}>
-          <PostCard post={post} />
-          {post.id === mainPosts[mainPosts.length - 1]?.id && hasMorePosts ? (
-            <div ref={ref}>
-              <Loading />
-            </div>
-          ) : (
-            ""
+            </Head>
           )}
-        </React.Fragment>
-      ))}
+          {userInfo ? <UserProfile info={userInfo} /> : ""}
+          {mainPosts.map((post) => (
+            // <PostCard post={post} key={post.id} />
+            <React.Fragment key={post.id}>
+              <PostCard post={post} />
+              {post.id === mainPosts[mainPosts.length - 1]?.id &&
+              hasMorePosts ? (
+                <div ref={ref}>
+                  <Loading />
+                </div>
+              ) : (
+                ""
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
     </AppLayout>
   );
 };

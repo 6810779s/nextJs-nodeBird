@@ -12,26 +12,10 @@ import wrapper from "../../store/configureStore";
 import axios from "axios";
 import { END } from "redux-saga";
 import Head from "next/head";
-import {
-  Avatar,
-  Divider,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PostCard from "../../components/PostCard";
 import Loading from "../../components/Loading";
-
-const useStyles = makeStyles({
-  profileWrap: { maxWidth: "500px", margin: "auto", padding: "30px" },
-  typographyBox: { width: "55px", background: "#E6E6E6", textAlign: "center" },
-  cardLayout: {
-    maxWidth: "400px",
-    margin: "20px auto",
-  },
-});
+import styles from "../../styles/userHashTag.module.scss";
 
 const Hashtag = () => {
   const dispatch = useDispatch();
@@ -47,6 +31,7 @@ const Hashtag = () => {
   });
   const router = useRouter();
   const { tag } = router.query;
+
   useEffect(() => {
     if (inView && !loadPostLoading && hasMorePosts) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
@@ -59,27 +44,32 @@ const Hashtag = () => {
   }, [inView]);
   return (
     <AppLayout>
-      <Head>
-        <title>{tag} 관련 글</title>
-        <meta name="description" content={`${tag}관련 글`} />
-        <meta property="og:title" content={`${tag}관련 글`} />
-        <meta property="og:description" content={`${tag}관련 글`} />
-        {/* <meta property="og:image" content={singlePost.Images[0]?singlePost.Images[0].src:"https://nodebird.com/favicon.icon"}/>
+      <div className={styles.container}>
+        <div className={styles.wrap}>
+          <Head>
+            <title>{tag} 관련 글</title>
+            <meta name="description" content={`${tag}관련 글`} />
+            <meta property="og:title" content={`${tag}관련 글`} />
+            <meta property="og:description" content={`${tag}관련 글`} />
+            {/* <meta property="og:image" content={singlePost.Images[0]?singlePost.Images[0].src:"https://nodebird.com/favicon.icon"}/>
         <meta property="og:url" content={`https://nodebird.com/user/${id}`}/> */}
-      </Head>
-      {mainPosts.map((post) => (
-        // <PostCard post={post} key={post.id} />
-        <React.Fragment key={post.id}>
-          <PostCard post={post} />
-          {post.id === mainPosts[mainPosts.length - 1]?.id && hasMorePosts ? (
-            <div ref={ref}>
-              <Loading />
-            </div>
-          ) : (
-            ""
-          )}
-        </React.Fragment>
-      ))}
+          </Head>
+          {mainPosts.map((post) => (
+            // <PostCard post={post} key={post.id} />
+            <React.Fragment key={post.id}>
+              <PostCard post={post} />
+              {post.id === mainPosts[mainPosts.length - 1]?.id &&
+              hasMorePosts ? (
+                <div ref={ref}>
+                  <Loading />
+                </div>
+              ) : (
+                ""
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
     </AppLayout>
   );
 };
