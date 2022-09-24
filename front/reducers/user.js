@@ -254,6 +254,7 @@ const rootReducer = (state = initialState, action) => {
         draft.changeNicknameLoading = false;
         draft.changeNicknameFailure = action.error;
         break;
+
       case ADD_POST_TO_ME:
         draft.me.Posts.unshift({ id: action.data });
         break;

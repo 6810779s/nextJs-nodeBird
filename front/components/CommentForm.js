@@ -4,35 +4,32 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ADD_COMMENTS_REQUEST } from "../constants/post";
 import styles from "../styles/CommentForm.module.scss";
+import useInput from "../hooks/useInput";
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
+  const [comment, setComment, reset] = useInput({ comment: "" });
   const commentText = useRef(null);
   const id = useSelector((state) => state.user.me?.id);
   const { addCommentsDone } = useSelector((state) => state.post);
   useEffect(() => {
     if (addCommentsDone) {
-      setComment("");
+      reset();
     }
   }, [addCommentsDone]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
 
-    if (data.get("commentInput")) {
+    if (comment.comment) {
       dispatch({
         type: ADD_COMMENTS_REQUEST,
         data: {
-          content: data.get("commentInput"),
+          content: comment.comment,
           postId: post.id,
           userId: id,
         },
       });
     }
-  };
-  const onChangeComment = (e) => {
-    setComment(e.target.value);
   };
   return (
     <>
@@ -44,10 +41,9 @@ const CommentForm = ({ post }) => {
       >
         <Input
           style={{ flex: 1 }}
-          id="commentInput"
-          name="commentInput"
-          value={comment}
-          onChange={onChangeComment}
+          name="comment"
+          value={comment.comment}
+          onChange={setComment}
           placeholder="댓글 달기..."
           type="text"
           ref={commentText}

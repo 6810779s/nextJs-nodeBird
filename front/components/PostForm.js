@@ -13,22 +13,18 @@ import useInput from "../hooks/useInput";
 const PostForm = () => {
   const dispatch = useDispatch();
   //   const imageInput = useRef();
-  const [textAreaValue, setTextAreaValue] = useInput({ text: "" });
-  // const onChangeText = useCallback((e) => {
-  //   setTextAreaValue(e.target.value);
-  // }, []);
+  const [textAreaValue, setTextAreaValue, reset] = useInput({ text: "" });
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
 
   useEffect(() => {
     if (addPostDone) {
-      textAreaValue.text = "";
+      reset();
     }
   }, [addPostDone]);
   const imageInput = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
     const formData = new FormData();
     imagePaths.forEach((i) => {
       formData.append("image", i);
@@ -67,7 +63,6 @@ const PostForm = () => {
           className={styles.textAreaStyle}
           name="text"
           id="text"
-          aria-label="minimum height"
           value={textAreaValue.text}
           onChange={setTextAreaValue}
           minRows={5}
