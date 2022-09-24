@@ -1,0 +1,10 @@
+@import "./variables";
+.container {
+  margin-top: 20px;
+  display: flex;
+  .inputStyle {
+    flex: 1;
+    border: none;
+    border-radius: $borderRadius1;
+  }
+}

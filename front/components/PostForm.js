@@ -9,18 +9,19 @@ import {
 import { addPost } from "../reducers/post";
 import styles from "../styles/Postform.module.scss";
 import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
+import useInput from "../hooks/useInput";
 const PostForm = () => {
   const dispatch = useDispatch();
   //   const imageInput = useRef();
-  const [textAreaValue, setTextAreaValue] = useState("");
-  const onChangeText = useCallback((e) => {
-    setTextAreaValue(e.target.value);
-  }, []);
+  const [textAreaValue, setTextAreaValue] = useInput({ text: "" });
+  // const onChangeText = useCallback((e) => {
+  //   setTextAreaValue(e.target.value);
+  // }, []);
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
 
   useEffect(() => {
     if (addPostDone) {
-      setTextAreaValue("");
+      textAreaValue.text = "";
     }
   }, [addPostDone]);
   const imageInput = useRef();
@@ -28,15 +29,17 @@ const PostForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const text = data.get("dailyText");
     const formData = new FormData();
     imagePaths.forEach((i) => {
       formData.append("image", i);
     });
 
-    formData.append("content", text);
-    if (data.get("dailyText") !== "" || imagePaths.length !== 0) {
+    formData.append("content", textAreaValue.text);
+    if (textAreaValue.text !== "" || imagePaths.length !== 0) {
       return dispatch(addPost(formData));
+    }
+    if (textAreaValue.text == "") {
+      alert("내용을 입력하세요.");
     }
   };
 
@@ -62,11 +65,11 @@ const PostForm = () => {
       <div className={styles.textAreaWrap}>
         <textarea
           className={styles.textAreaStyle}
-          name="dailyText"
-          id="dailyText"
+          name="text"
+          id="text"
           aria-label="minimum height"
-          value={textAreaValue}
-          onChange={onChangeText}
+          value={textAreaValue.text}
+          onChange={setTextAreaValue}
           minRows={5}
           placeholder="재미있는 일상을 사람들과 공유해보아요."
           autoFocus
