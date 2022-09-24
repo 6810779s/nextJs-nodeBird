@@ -20,6 +20,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import PostCard from "../../components/PostCard";
 import Loading from "../../components/Loading";
+import UserProfile from "../../components/UserProfile";
 
 const useStyles = makeStyles({
   profileWrap: { maxWidth: "500px", margin: "auto", padding: "30px" },
@@ -56,6 +57,8 @@ const User = () => {
       });
     }
   }, [inView]);
+  console.log("userInfo:", userInfo);
+  console.log("mainPosts:", mainPosts);
   return (
     <AppLayout>
       {userInfo && (
@@ -78,36 +81,37 @@ const User = () => {
         </Head>
       )}
       {userInfo ? (
-        <Card className={classes.cardLayout}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="userProfile">{userInfo.nickname[0]}</Avatar>
-            }
-            title={userInfo.nickname}
-          />
-          <CardContent
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <Typography className={classes.typographyBox}>
-              짹짹
-              <br />
-              {userInfo.Posts}
-            </Typography>
-            <Divider style={{ height: 50 }} orientation="vertical" />
-            <Typography className={classes.typographyBox}>
-              팔로워
-              <br />
-              {userInfo.Followers}
-            </Typography>
-            <Divider style={{ height: 50 }} orientation="vertical" />
-            <Typography className={classes.typographyBox}>
-              팔로잉
-              <br />
-              {userInfo.Followings}
-            </Typography>
-          </CardContent>
-        </Card>
+        <UserProfile info={userInfo} />
       ) : (
+        // <Card className={classes.cardLayout}>
+        //   <CardHeader
+        //     avatar={
+        //       <Avatar aria-label="userProfile">{userInfo.nickname[0]}</Avatar>
+        //     }
+        //     title={userInfo.nickname}
+        //   />
+        //   <CardContent
+        //     style={{ display: "flex", justifyContent: "space-between" }}
+        //   >
+        //     <Typography className={classes.typographyBox}>
+        //       짹짹
+        //       <br />
+        //       {userInfo.Posts}
+        //     </Typography>
+        //     <Divider style={{ height: 50 }} orientation="vertical" />
+        //     <Typography className={classes.typographyBox}>
+        //       팔로워
+        //       <br />
+        //       {userInfo.Followers}
+        //     </Typography>
+        //     <Divider style={{ height: 50 }} orientation="vertical" />
+        //     <Typography className={classes.typographyBox}>
+        //       팔로잉
+        //       <br />
+        //       {userInfo.Followings}
+        //     </Typography>
+        //   </CardContent>
+        // </Card>
         ""
       )}
       {mainPosts.map((post) => (
@@ -143,7 +147,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       type: LOAD_USER_REQUEST,
       data: context.params.id,
     });
-``
+    ``;
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
   }

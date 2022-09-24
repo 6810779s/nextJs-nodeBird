@@ -15,42 +15,31 @@ import Loading from "./Loading";
 import Link from "next/link";
 import styles from "../styles/UserProfile.module.scss";
 
-const UserProfile = () => {
+const UserProfile = ({ info }) => {
   const dispatch = useDispatch();
-  const { me, logOutLoading } = useSelector((state) => state.user);
+  // const { me, logOutLoading } = useSelector((state) => state.user);
   return (
     <>
       <Card className={styles.cardLayout}>
         <CardHeader
           avatar={
-            <Link href={`/user/${me.id}`}>
+            <Link href={`/user/${info.id}`}>
               <a>
-                <Avatar aria-label="userProfile">{me.nickname[0]}</Avatar>
+                <Avatar aria-label="userProfile">{info.nickname[0]}</Avatar>
               </a>
             </Link>
           }
-          title={me.nickname}
-          // subheader={
-          //   <Button
-          //     onClick={useCallback(() => {
-          //       dispatch(logoutRequestAction());
-          //       // setIsLoggedIn(false);
-          //     }, [])}
-          //   >
-          //     <LockOpenIcon />
-          //     {logOutLoading ? <Loading /> : "Logout"}
-          //   </Button>
-          // }
+          title={info.nickname}
         />
         <CardContent
           style={{ display: "flex", justifyContent: "space-between" }}
         >
           <Typography className={styles.typographyBox}>
-            <Link href={`/user/${me.id}`}>
+            <Link href={`/user/${info.id}`}>
               <a>
                 게시물
                 <br />
-                {me.Posts.length}{" "}
+                {info.Posts.length}{" "}
               </a>
             </Link>
           </Typography>
@@ -61,7 +50,7 @@ const UserProfile = () => {
               <a>
                 팔로워
                 <br />
-                {me.Followers.length}
+                {info.Followers.length}
               </a>
             </Link>
           </Typography>
@@ -71,7 +60,7 @@ const UserProfile = () => {
               <a>
                 팔로잉
                 <br />
-                {me.Followings.length}
+                {info.Followings.length}
               </a>
             </Link>
           </Typography>

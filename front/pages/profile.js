@@ -52,6 +52,7 @@ const profile = () => {
     console.error(followerError || followingError);
     return <div>팔로워/팔로잉중 에러가 발생합니다.</div>;
   }
+  console.log("me:", me);
   return (
     <>
       <Head>
@@ -60,7 +61,7 @@ const profile = () => {
       <AppLayout>
         <div className={styles.container}>
           <div className={styles.wrap}>
-            <UserProfile />
+            <UserProfile info={me} />
             <NickNameEditForm />
             <FollowList
               header="팔로잉"
