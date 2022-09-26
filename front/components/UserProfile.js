@@ -7,8 +7,7 @@ import {
   Divider,
   Typography,
 } from "@material-ui/core";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import React, { useCallback } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import Loading from "./Loading";

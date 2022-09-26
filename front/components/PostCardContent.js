@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import styles from "../styles/PostCardContent.module.scss";

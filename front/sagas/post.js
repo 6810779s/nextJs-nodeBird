@@ -35,8 +35,9 @@ import {
   LOAD_HASHTAG_POSTS_SUCCESS,
   LOAD_HASHTAG_POSTS_FAILURE,
 } from "../constants/post";
-import { all, fork, put, takeLatest, delay, call } from "redux-saga/effects";
+import { all, fork, put, takeLatest, call } from "redux-saga/effects";
 import axios from "axios";
+
 function addPostAPI(data) {
   return axios.post("/post", data);
 }

@@ -31,7 +31,10 @@ const PostForm = () => {
     });
 
     formData.append("content", textAreaValue.text);
+
     if (textAreaValue.text !== "" || imagePaths.length !== 0) {
+      console.log("formData:", formData);
+      console.log("formData:", formData["image"], formData["content"]);
       return dispatch(addPost(formData));
     }
     if (textAreaValue.text == "") {

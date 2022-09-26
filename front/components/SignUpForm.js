@@ -3,8 +3,6 @@ import { Box, Button, Grid, TextField } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import LockOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
 import React, { useState, useCallback, useEffect } from "react";
-import Link from "next/link";
-import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpRequestAction } from "../reducers/user";
 import Loading from "./Loading";

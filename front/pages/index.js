@@ -30,13 +30,6 @@ const Home = () => {
     }
   }, [retweetFailure]);
 
-  // useEffect(() => {
-  //   dispatch({ type: LOAD_MY_INFO_REQUEST });
-  //   dispatch({
-  //     type: LOAD_POST_REQUEST,
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (inView && !loadPostLoading && hasMorePosts) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
