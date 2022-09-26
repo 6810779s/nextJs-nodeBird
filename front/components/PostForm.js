@@ -7,7 +7,7 @@ import {
   UPLOAD_IMAGES_REQUEST,
 } from "../constants/post";
 import { addPost } from "../reducers/post";
-import styles from "../styles/Postform.module.scss";
+import styles from "../styles/PostForm.module.scss";
 import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 import useInput from "../hooks/useInput";
 const PostForm = () => {
