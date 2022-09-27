@@ -62,6 +62,6 @@ app.use("/user", userRouter);
 app.use("/posts", postsRouter);
 app.use("/hashtag", hashtagRouter);
 
-app.listen(3065, () => {
-  console.log("3065포트에서 서버 실행");
+app.listen(process.env.PORT, () => {
+  console.log(`${process.env.PORT}포트에서 서버 실행`);
 });

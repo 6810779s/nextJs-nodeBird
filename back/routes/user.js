@@ -75,7 +75,7 @@ router.get("/followings", isLoggedIn, async (req, res, next) => {
     if (!user) {
       return res.status(403).send("존재하지 않는 사용자 입니다.");
     }
-    console.log("~~~!!!", parseInt(req.query.limit, 10));
+
     const followings = await user.getFollowings({
       limit: parseInt(req.query.limit, 10),
     });
@@ -110,11 +110,12 @@ router.get("/:userId", async (req, res, next) => {
       ],
     });
     if (fullUserWithoutPassword) {
-      const data = fullUserWithoutPassword.toJSON();
-      data.Posts = data.Posts.length;
-      data.Followers = data.Followers.length;
-      data.Followings = data.Followings.length;
-      res.status(200).json(data);
+      res.status(200).json(fullUserWithoutPassword);
+      // const data = fullUserWithoutPassword.toJSON();
+      // data.Posts = data.Posts.length;
+      // data.Followers = data.Followers.length;
+      // data.Followings = data.Followings.length;
+      // res.status(200).json(data);
     } else {
       res.status(404).json("존재하지 않는 사용자 입니다.");
     }
@@ -238,8 +239,15 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
         email: req.body.email,
       },
     });
+    const exNickname = await User.findOne({
+      where: {
+        nickname: req.body.nickname,
+      },
+    });
     if (exUser) {
-      return res.status(403).send("이미 사용중인 아이디 입니다.");
+      return res.status(403).send("이미 사용중인 이메일 입니다.");
+    } else if (exNickname) {
+      return res.status(403).send("이미 사용중인 닉네임 입니다.");
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 10); //10~12 보안 정도
     await User.create({
@@ -257,6 +265,15 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
 
 router.patch("/nickname", isLoggedIn, async (req, res, next) => {
   try {
+    const exNickname = await User.findOne({
+      where: {
+        nickname: req.body.nickname,
+      },
+    });
+    if (exNickname) {
+      return res.status(403).send("이미 사용중인 닉네임 입니다.");
+    }
+
     await User.update(
       { nickname: req.body.nickname },
       { where: { id: req.user.id } }

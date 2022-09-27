@@ -39,6 +39,7 @@ const upload = multer({
 
 router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
+    console.log("data:", req.body);
     const hashtags = req.body.content.match(/#[^\s#]+/g);
     const post = await Post.create({
       content: req.body.content,
@@ -124,6 +125,7 @@ router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
       return res.status(403).send("자신의 글은 리트윗할 수 없습니다.");
     }
     const retweetTargetId = post.RetweetId || post.id;
+
     const exPost = await Post.findOne({
       where: {
         UserId: req.user.id,
@@ -138,6 +140,13 @@ router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
       RetweetId: retweetTargetId,
       content: "retweet",
     });
+
+    /* 
+    include사용 이유
+    아래 retweetWithPrevPost으로 설명:
+    Post, User,Image,Comment, User as Likers 테이블에서 
+    id = retweet.id인 것들만 뽑아줌.
+    */
     const retweetWithPrevPost = await Post.findOne({
       where: { id: retweet.id },
       include: [
@@ -178,6 +187,26 @@ router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
       ],
     });
     res.status(201).json(retweetWithPrevPost);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get("/:postId/retweetCount", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send("존재하지 않는 게시물 입니다.");
+    }
+    const retweetTargetId = post.RetweetId || post.id;
+
+    const retweetCount = await Post.count({
+      where: { RetweetId: retweetTargetId },
+    });
+    res.status(201).send(retweetCount);
   } catch (error) {
     console.error(error);
     next(error);
