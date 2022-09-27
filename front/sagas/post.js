@@ -180,7 +180,7 @@ function loadPostAPI(data) {
 function* loadPost(action) {
   try {
     const result = yield call(loadPostAPI, action.data);
-    console.log("result:", result.data);
+    
     yield put({
       type: LOAD_POST_SUCCESS,
       data: result.data,
@@ -266,7 +266,7 @@ function retweetAPI(data) {
 function* retweet(action) {
   try {
     const result = yield call(retweetAPI, action.data);
-    console.log("result:", result.data);
+    
     yield put({
       type: RETWEET_SUCCESS,
       data: result.data,

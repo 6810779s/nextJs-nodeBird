@@ -33,8 +33,6 @@ const PostForm = () => {
     formData.append("content", textAreaValue.text);
 
     if (textAreaValue.text !== "" || imagePaths.length !== 0) {
-      console.log("formData:", formData);
-      console.log("formData:", formData["image"], formData["content"]);
       return dispatch(addPost(formData));
     }
     if (textAreaValue.text == "") {
@@ -100,7 +98,7 @@ const PostForm = () => {
         {imagePaths.map((v, i) => (
           <div key={v} style={{ display: "inline-block" }}>
             <img
-              src={`http://localhost:3065/${v}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/${v}`}
               style={{ width: "200px" }}
               alt={v}
             />

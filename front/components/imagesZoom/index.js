@@ -64,7 +64,7 @@ const ImagesZoom = ({ images, onClose }) => {
               >
                 <img
                   style={{ margin: "0 auto", maxHeight: "700px" }}
-                  src={`http://localhost:3065/${image.src}`}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/${image.src}`}
                   alt={image.alt}
                 />
               </div>

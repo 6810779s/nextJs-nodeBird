@@ -34,9 +34,7 @@ const PostImages = ({ images }) => {
       moveSlide(slideNum + 1);
       setSlideNum(slideNum + 1);
     }
-    console.log("images:", images.length);
   }, [slideNum]);
-  console.log("slideNum:", slideNum);
   const imagesReturn = useCallback(() => {
     const containerWidth = 470 * images.length;
 
@@ -73,7 +71,7 @@ const PostImages = ({ images }) => {
       <div className={styles.container}>
         <img
           role="presentation"
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`${process.env.NEXT_PUBLIC_API_URL}/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />

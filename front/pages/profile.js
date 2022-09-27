@@ -17,12 +17,12 @@ const profile = () => {
   const [followersLimit, setFollowersLimit] = useState(3);
   const [followingsLimit, setFollowingsLimit] = useState(3);
   const { data: followersData, error: followerError } = useSWR(
-    `http://localhost:3065/user/followers?limit=${followersLimit}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/followers?limit=${followersLimit}`,
     fetcher
   );
 
   const { data: followingsData, error: followingError } = useSWR(
-    `http://localhost:3065/user/followings?limit=${followingsLimit}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/followings?limit=${followingsLimit}`,
     fetcher
   );
 
@@ -52,7 +52,7 @@ const profile = () => {
     console.error(followerError || followingError);
     return <div>팔로워/팔로잉중 에러가 발생합니다.</div>;
   }
-  console.log("me:", me);
+  
   return (
     <>
       <Head>
