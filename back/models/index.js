@@ -5,10 +5,14 @@ const image = require("./image");
 const post = require("./post");
 const user = require("./user");
 
-const env = `${process.env.NODE_ENV}` || "development";
-const config = require("../config/config")[env];
-const db = {};
+console.log("env:", process.env.NODE_ENV);
 
+const env = process.env.NODE_ENV || "development";
+console.log("env??:", env);
+const config = require("../config/config")[env];
+console.log("config??:", config);
+const db = {};
+console.log("env:", process.env.NODE_ENV);
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -30,7 +34,6 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
