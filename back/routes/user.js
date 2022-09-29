@@ -51,6 +51,7 @@ router.get("/followers", isLoggedIn, async (req, res, next) => {
         id: req.user.id,
       },
     });
+
     if (!user) {
       return res.status(403).send("존재하지 않는 사용자 입니다.");
     }
@@ -111,11 +112,7 @@ router.get("/:userId", async (req, res, next) => {
     });
     if (fullUserWithoutPassword) {
       res.status(200).json(fullUserWithoutPassword);
-      // const data = fullUserWithoutPassword.toJSON();
-      // data.Posts = data.Posts.length;
-      // data.Followers = data.Followers.length;
-      // data.Followings = data.Followings.length;
-      // res.status(200).json(data);
+      
     } else {
       res.status(404).json("존재하지 않는 사용자 입니다.");
     }

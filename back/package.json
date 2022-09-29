@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app",
-    "start":"pm2 start app.js"
+    "dev": "NODE_ENV=development nodemon app",
+    "start":"NODE_ENV=production nodemon app"
   },
   "author": "eunhee",
   "license": "ISC",
