@@ -5,7 +5,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 module.exports = withBundleAnalyzer({
   compress: true,
   assetPrefix:
-    process.env.NODE_ENV === "production" ? "http://44.209.7.224" : "",
+    process.env.NODE_ENV === "production" ? `http://${process.env.HOST}` : "",
   webpack(config, { webpack }) {
     const prod = process.env.NODE_ENV === "production";
     return {
