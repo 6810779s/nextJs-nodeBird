@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next -p 8080",
     "build": "next build",
-    "start": "sudo pm2 start npm --name nextJs-nodeBird -- run start -- --port=8080",
+    "start": "sudo pm2 start npm --name lifetory-front -- run start -- --port=8080",
     "test":"jest"
   },
   "author": "eunhee",
