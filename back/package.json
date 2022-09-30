@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon app",
-    "start":"NODE_ENV=production pm2 start app.js"
+    "start":"NODE_ENV=production pm2 start app.js --name lifetory-back"
   },
   "author": "eunhee",
   "license": "ISC",
